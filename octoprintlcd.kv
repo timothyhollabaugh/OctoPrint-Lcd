@@ -1,0 +1,97 @@
+#: kivy 1.9.0
+
+<Label>:
+    font_name: 'fonts/Ubuntu-M.ttf'
+
+<TimeLabel@BoxLayout>:
+    time: "00:00:00"
+    title: "No Time"
+
+    spacing: 2
+
+    Label:
+        text: root.time
+        font_size: 36
+        size_hint: 0.55, None
+        text_size: self.width, None
+        size: self.texture_size
+        halign: 'right'
+
+    Label:
+        text: root.title
+        font_size: 24
+        size_hint: 0.45, None
+        text_size: self.width, None
+        size: self.texture_size
+
+
+
+<OctoprintLcd>:
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    do_default_tab: False
+
+    TabbedPanelItem:
+        text: 'Status'
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                id: status_label
+                text: 'Printing'
+                halign: 'center'
+                font_size: 48
+                text_size: root.width, 60
+                size: self.texture_size
+                size_hint: 1, None
+            Label:
+                id: file_label
+                text: 'Everything.gcode'
+                halign: 'center'
+                font_size: 24
+                text_size: root.width, 40
+                size: self.texture_size
+                size_hint: 1, None
+            BoxLayout:
+                #size: self.width, self.height
+                #size_hint: 1, None
+
+                BoxLayout:
+
+
+                GridLayout:
+
+            BoxLayout:
+                #orientation: 'vertical'
+                size: self.width, 50
+                size_hint: 1, None
+
+                TimeLabel:
+                    id: time_in
+                    time: "12:34:54"
+                    title: 'Printed'
+
+                TimeLabel:
+                    id: time_remaining
+                    time: "10:47:32"
+                    title: 'Remaining'
+
+
+                TimeLabel:
+                    id: time_total
+                    time: "22:21:12"
+                    title: 'Total'
+            ProgressBar:
+                max: 100
+                value: 56
+                size: self.width, 15
+                size_hint: 1, None
+    TabbedPanelItem:
+        text: 'tab2'
+        BoxLayout:
+            Label:
+                text: 'Second tab content area'
+            Button:
+                text: 'Button that does nothing'
+    TabbedPanelItem:
+        text: 'tab3'
+        RstDocument:
+            text: '\\n'.join(("Hello world", "-----------", "You are in the third tab."))
