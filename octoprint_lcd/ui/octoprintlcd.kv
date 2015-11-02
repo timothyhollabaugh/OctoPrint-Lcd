@@ -1,28 +1,33 @@
 #: kivy 1.9.0
 
-<Label>:
-    font_name: 'fonts/Ubuntu-M.ttf'
+#:import Server octoprint.server
+
+#<Label>:
+    #font_name: 'fonts/Ubuntu-M.ttf'
 
 <TimeLabel@BoxLayout>:
     time: "00:00:00"
     title: "No Time"
 
     spacing: 2
-
-    Label:
-        text: root.time
-        font_size: 36
-        size_hint: 0.55, None
-        text_size: self.width, None
-        size: self.texture_size
-        halign: 'right'
+    orientation: 'vertical'
 
     Label:
         text: root.title
         font_size: 24
-        size_hint: 0.45, None
+        size_hint: 1, None
         text_size: self.width, None
-        size: self.texture_size
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'center'
+
+    Label:
+        text: root.time
+        font_size: 36
+        size_hint: 1, None
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'center'
+        #padding: 5, 10
 
 
 
@@ -54,10 +59,7 @@
                 #size: self.width, self.height
                 #size_hint: 1, None
 
-                BoxLayout:
 
-
-                GridLayout:
 
             BoxLayout:
                 #orientation: 'vertical'
@@ -80,10 +82,28 @@
                     time: "22:21:12"
                     title: 'Total'
             ProgressBar:
+                id: progress
                 max: 100
                 value: 56
-                size: self.width, 15
+                padding: 5
+                size: self.width, 30
                 size_hint: 1, None
+            BoxLayout:
+                size_hint: 1, None
+                size: self.width, 40
+                Button:
+                    text: "Print"
+                    id: print_button
+                    on_press: Server.printer.start_print()
+                Button:
+                    text: "Pause"
+                    id: pause_button
+                    on_press: Server.printer.toggle_pause_print()
+                Button:
+                    text: "Cancel"
+                    id: cancel_button
+                    on_press: Server.printer.cancel_print()
+                    background_color: 2, .5, .5, 1
     TabbedPanelItem:
         text: 'tab2'
         BoxLayout:
@@ -93,5 +113,5 @@
                 text: 'Button that does nothing'
     TabbedPanelItem:
         text: 'tab3'
-        RstDocument:
-            text: '\\n'.join(("Hello world", "-----------", "You are in the third tab."))
+        #RstDocument:
+        #    text: '\\n'.join(("Hello world", "-----------", "You are in the third tab."))
