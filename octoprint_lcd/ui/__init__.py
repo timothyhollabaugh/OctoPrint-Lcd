@@ -10,7 +10,7 @@ def start():
 
     from kivy.config import Config
 
-    from . import Data
+    import octoprint.server as Server
 
     Config.set('graphics', 'height', '480')
     Config.set('graphics', 'width', '800')
@@ -21,20 +21,23 @@ def start():
 
         def __init__(self):
             super(OctoprintLcd, self).__init__()
-            Clock.schedule_interval(self.update, .5)
+            Clock.schedule_interval(self.update, .1)
 
 
         def update(self, dt):
-            self.ids.status_label.text = Data.getCurrentData()['state']['text']
 
-            if Data.getCurrentData()['state']['flags']['printing'] :
+            data = Server.printer.get_current_data()
+
+            self.ids.status_label.text = data['state']['text']
+
+            if data['state']['flags']['printing'] :
                 self.ids.print_button.text = "Print"
                 self.ids.pause_button.text = "Pause"
 
                 self.ids.print_button.disabled = True
                 self.ids.pause_button.disabled = False
                 self.ids.cancel_button.disabled = False
-            elif Data.getCurrentData()['state']['flags']['paused']:
+            elif data['state']['flags']['paused']:
                 self.ids.print_button.text = "Restart"
                 self.ids.pause_button.text = "Resume"
 
@@ -45,7 +48,7 @@ def start():
                 self.ids.print_button.text = "Print"
                 self.ids.pause_button.text = "Pause"
 
-                if Data.getCurrentData()['job']['file']['name'] == None:
+                if data['job']['file']['name'] == None:
                     self.ids.print_button.disabled = True
                 else:
                     self.ids.print_button.disabled = False
@@ -53,12 +56,12 @@ def start():
                 self.ids.pause_button.disabled = True
                 self.ids.cancel_button.disabled = True
 
-            file = Data.getCurrentData()['job']['file']['name']
+            file = data['job']['file']['name']
             if file == None:
                 file = ""
             self.ids.file_label.text = file
 
-            timein = Data.getCurrentData()['progress']['printTime']
+            timein = data['progress']['printTime']
 
             if not timein == None:
                 m, s = divmod(int(timein), 60)
@@ -68,7 +71,7 @@ def start():
 
             self.ids.time_in.time = str("%02d:%02d:%02d" % (h, m, s))
 
-            timeleft = Data.getCurrentData()['progress']['printTimeLeft']
+            timeleft = data['progress']['printTimeLeft']
 
             if not timeleft == None:
                 m, s = divmod(int(timeleft), 60)
@@ -78,7 +81,10 @@ def start():
 
             self.ids.time_remaining.time = str("%02d:%02d:%02d" % (h, m, s))
 
-            timetotal = Data.getCurrentData()['job']['estimatedPrintTime']
+            timetotal = data['job']['lastPrintTime']
+
+            if timetotal == None:
+                timetotal = data['job']['estimatedPrintTime']
 
             if not timetotal == None:
                 m, s = divmod(int(timetotal), 60)
@@ -88,7 +94,7 @@ def start():
 
             self.ids.time_total.time = str("%02d:%02d:%02d" % (h, m, s))
 
-            prog = Data.getCurrentData()['progress']['completion']
+            prog = data['progress']['completion']
 
             if prog == None:
                 prog = 0
