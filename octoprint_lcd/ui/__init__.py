@@ -5,6 +5,7 @@ def start():
     from kivy.app import App
     from kivy.lang import Builder
     from kivy.clock import Clock
+    from kivy.properties import StringProperty
     from kivy.uix.boxlayout import BoxLayout
     from kivy.uix.tabbedpanel import TabbedPanel
 
@@ -17,6 +18,25 @@ def start():
     Config.set('graphics', 'borderless', '1')
     Config.write()
 
+    class FileView(BoxLayout):
+
+        name = StringProperty("[NAME]")
+        uploaded = StringProperty("[UPLOADED]")
+        size = StringProperty("[SIZE]")
+
+        def __init__(self, destination, path):
+            self.destination = destination
+            self.path = path
+            self.info = Server.fileManager.get_metadata(self.destination, self.path)
+
+            print info
+
+            self.add_widget(Label(text="HELOSDS"))
+
+        def update(self):
+            self.info = Server.fileManager.get_metadata(self.destination, self.path)
+
+
     class OctoprintLcd(TabbedPanel):
 
         def __init__(self):
@@ -25,8 +45,47 @@ def start():
 
 
         def update(self, dt):
+            temps = Server.printer.get_current_temperatures()
+
+            if Server.printer.get_current_connection()[3] != None:
+                if Server.printer.get_current_connection()[3]['heatedBed']:
+                    if 'bed' in temps.keys():
+                        self.ids.bed_status.actual = str("%3.1f" % temps['bed']['actual'])
+                        self.ids.bed_status.target = str("%3.0f" % temps['bed']['target'])
+                if 'tool0' in temps.keys():
+                    self.ids.tool0_status.actual = str("%3.1f" % temps['tool0']['actual'])
+                    self.ids.tool0_status.target = str("%3.0f" % temps['tool0']['target'])
+                if 'tool1' in temps.keys():
+                    self.ids.tool1_status.actual = str("%3.1f" % temps['tool1']['actual'])
+                    self.ids.tool1_status.target = str("%3.0f" % temps['tool1']['target'])
+                if 'tool2' in temps.keys():
+                    self.ids.tool2_status.actual = str("%3.1f" % temps['tool2']['actual'])
+                    self.ids.tool2_status.target = str("%3.0f" % temps['tool2']['target'])
+
 
             data = Server.printer.get_current_data()
+
+            filament = data['job']['filament']
+
+            changed = []
+
+            if filament != None:
+                if 'tool0' in filament.keys() or 'tool1' in filament.keys() or 'tool2' in filament.keys():
+                    for i in filament:
+                        #print i
+                        self.ids[i + '_filament'].length = str("%.2f" % (filament[i]['length']/1000))
+                        self.ids[i + '_filament'].volume = str("%3.2f" % filament[i]['volume'])
+                        changed.append(i)
+
+            if not 'tool0' in changed:
+                self.ids['tool0_filament'].length = " - - "
+                self.ids['tool0_filament'].volume = " - - "
+            if not 'tool1' in changed:
+                self.ids['tool1_filament'].length = " - - "
+                self.ids['tool1_filament'].volume = " - - "
+            if not 'tool2' in changed:
+                self.ids['tool2_filament'].length = " - - "
+                self.ids['tool2_filament'].volume = " - - "
 
             self.ids.status_label.text = data['state']['text']
 
@@ -58,7 +117,7 @@ def start():
 
             file = data['job']['file']['name']
             if file == None:
-                file = ""
+                file = "No File Loaded"
             self.ids.file_label.text = file
 
             timein = data['progress']['printTime']
@@ -106,8 +165,5 @@ def start():
         def build(self):
             return OctoprintLcd()
 
-
-
-    #Builder.load_file('octoprintlcd.kv')
 
     OctoprintLcdApp.run(OctoprintLcdApp())

@@ -5,15 +5,14 @@ import octoprint.plugin
 
 import octoprint.server as Server
 
+import os
 import thread
 
-from .internal import OctoprintUpdate
 from .ui import *
 
 class LcdPlugin(octoprint.plugin.StartupPlugin):
 
     def on_after_startup(self):
-        Server.printer.register_callback(OctoprintUpdate())
         thread.start_new_thread(ui.start, ())
         self._logger.info("Starting UI")
 

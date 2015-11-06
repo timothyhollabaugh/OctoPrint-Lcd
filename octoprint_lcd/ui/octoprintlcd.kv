@@ -3,6 +3,7 @@
 #:import Server octoprint.server
 
 #<Label>:
+    #font_name: '/home/tim/python/kivy/OctoPrint-Lcd/octoprint_lcd/ui/fonts/Ubuntu-M.ttf'
     #font_name: 'fonts/Ubuntu-M.ttf'
 
 <TimeLabel@BoxLayout>:
@@ -11,6 +12,7 @@
 
     spacing: 2
     orientation: 'vertical'
+
 
     Label:
         text: root.title
@@ -29,7 +31,74 @@
         halign: 'center'
         #padding: 5, 10
 
+<TemperatureLabel@BoxLayout>:
+    actual: "-"
+    target: "-"
+    title: ""
 
+    spacing: 2
+    padding: 5
+    #orientation: 'vertical'
+
+    Label:
+        text: root.title
+        font_size: 24
+        size_hint: 0.3, None
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'right'
+
+    Label:
+        text: root.actual + " " + unichr(176) + "C"
+        font_size: 24
+        size_hint: 0.3, None
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'right'
+
+    Label:
+        text: root.target + " " + unichr(176) + "C"
+        font_size: 24
+        size_hint: 0.3, None
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'right'
+    Label:
+        size_hint: 0.1, 1
+
+<FilamentLabel@BoxLayout>:
+    length: " - - "
+    volume: " - - "
+    title: ""
+
+    spacing: 2
+    padding: 5
+    #orientation: 'vertical'
+
+    Label:
+        text: root.title
+        font_size: 24
+        size_hint: 0.4, None
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'right'
+
+    Label:
+        text: root.length + "m"
+        font_size: 24
+        size_hint: 0.25, None
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'right'
+    Label:
+        text: root.volume + "cm" + unichr(179)
+        font_size: 24
+        size_hint: 0.35, None
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'right'
+    Label:
+        size_hint: 0, 1
 
 <OctoprintLcd>:
     pos_hint: {'center_x': .5, 'center_y': .5}
@@ -58,25 +127,48 @@
             BoxLayout:
                 #size: self.width, self.height
                 #size_hint: 1, None
+                padding: 10
+                BoxLayout:
+                    orientation: 'vertical'
+                    #size_hint: 0.4, 1
+                    TemperatureLabel:
+                        id: bed_status
+                        title: "Bed:"
+                    TemperatureLabel:
+                        id: tool0_status
+                        title: "Tool 0:"
+                    TemperatureLabel:
+                        id: tool1_status
+                        title: "Tool 1:"
+                    TemperatureLabel:
+                        id: tool2_status
+                        title: "Tool 2:"
 
-
+                BoxLayout:
+                    orientation: 'vertical'
+                    #size_hint: 0.6, 1
+                    FilamentLabel:
+                        id: tool0_filament
+                        title: "Tool 0 Usage: "
+                    FilamentLabel:
+                        id: tool1_filament
+                        title: "Tool 1 Usage: "
+                    FilamentLabel:
+                        id: tool2_filament
+                        title: "Tool 2 Usage: "
 
             BoxLayout:
                 #orientation: 'vertical'
-                size: self.width, 50
+                size: self.width, 70
                 size_hint: 1, None
-
                 TimeLabel:
                     id: time_in
                     time: "12:34:54"
                     title: 'Printed'
-
                 TimeLabel:
                     id: time_remaining
                     time: "10:47:32"
                     title: 'Remaining'
-
-
                 TimeLabel:
                     id: time_total
                     time: "22:21:12"
@@ -112,6 +204,11 @@
             Button:
                 text: 'Button that does nothing'
     TabbedPanelItem:
-        text: 'tab3'
-        #RstDocument:
-        #    text: '\\n'.join(("Hello world", "-----------", "You are in the third tab."))
+        text: 'Files'
+        BoxLayout:
+            BoxLayout:
+
+            ScrollView:
+                BoxLayout:
+                    id: file_list
+                    
