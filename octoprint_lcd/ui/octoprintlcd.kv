@@ -100,102 +100,105 @@
     Label:
         size_hint: 0, 1
 
+<StatusTab>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: status_label
+            text: 'Printing'
+            halign: 'center'
+            font_size: 48
+            text_size: root.width, 60
+            size: self.texture_size
+            size_hint: 1, None
+        Label:
+            id: file_label
+            text: 'Everything.gcode'
+            halign: 'center'
+            font_size: 24
+            text_size: root.width, 40
+            size: self.texture_size
+            size_hint: 1, None
+        BoxLayout:
+            #size: self.width, self.height
+            #size_hint: 1, None
+            padding: 10
+            BoxLayout:
+                orientation: 'vertical'
+                TemperatureLabel:
+                    id: tool1_status
+                    title: "Tool 0:"
+                TemperatureLabel:
+                    id: tool1_status
+                    title: "Tool 1:"
+                TemperatureLabel:
+                    id: tool2_status
+                    title: "Tool 2:"
+
+            BoxLayout:
+                orientation: 'vertical'
+                #size_hint: 0.6, 1
+                FilamentLabel:
+                    id: tool0_filament
+                    title: "Tool 0 Usage: "
+                FilamentLabel:
+                    id: tool1_filament
+                    title: "Tool 1 Usage: "
+                FilamentLabel:
+                    id: tool2_filament
+                    title: "Tool 2 Usage: "
+
+        BoxLayout:
+            #orientation: 'vertical'
+            size: self.width, 70
+            size_hint: 1, None
+            TimeLabel:
+                id: time_in
+                time: "12:34:54"
+                title: 'Printed'
+            TimeLabel:
+                id: time_remaining
+                time: "10:47:32"
+                title: 'Remaining'
+            TimeLabel:
+                id: time_total
+                time: "22:21:12"
+                title: 'Total'
+        ProgressBar:
+            id: progress
+            max: 100
+            value: 56
+            padding: 5
+            size: self.width, 30
+            size_hint: 1, None
+        BoxLayout:
+            size_hint: 1, None
+            size: self.width, 40
+            size_hint: 1, None
+            size: self.width, 40
+            Button:
+                text: "Print"
+                id: print_button
+                on_press: Server.printer.start_print()
+            Button:
+                text: "Pause"
+                id: pause_button
+                on_press: Server.printer.toggle_pause_print()
+            Button:
+                text: "Cancel"
+                id: cancel_button
+                on_press: Server.printer.cancel_print()
+                background_color: 2, .5, .5, 1
+
 <OctoprintLcd>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     do_default_tab: False
 
     TabbedPanelItem:
         text: 'Status'
-        BoxLayout:
-            orientation: 'vertical'
-            Label:
-                id: status_label
-                text: 'Printing'
-                halign: 'center'
-                font_size: 48
-                text_size: root.width, 60
-                size: self.texture_size
-                size_hint: 1, None
-            Label:
-                id: file_label
-                text: 'Everything.gcode'
-                halign: 'center'
-                font_size: 24
-                text_size: root.width, 40
-                size: self.texture_size
-                size_hint: 1, None
-            BoxLayout:
-                #size: self.width, self.height
-                #size_hint: 1, None
-                padding: 10
-                BoxLayout:
-                    orientation: 'vertical'
-                    #size_hint: 0.4, 1
-                    TemperatureLabel:
-                        id: bed_status
-                        title: "Bed:"
-                    TemperatureLabel:
-                        id: tool0_status
-                        title: "Tool 0:"
-                    TemperatureLabel:
-                        id: tool1_status
-                        title: "Tool 1:"
-                    TemperatureLabel:
-                        id: tool2_status
-                        title: "Tool 2:"
+        StatusTab:
+            id: status_tab
 
-                BoxLayout:
-                    orientation: 'vertical'
-                    #size_hint: 0.6, 1
-                    FilamentLabel:
-                        id: tool0_filament
-                        title: "Tool 0 Usage: "
-                    FilamentLabel:
-                        id: tool1_filament
-                        title: "Tool 1 Usage: "
-                    FilamentLabel:
-                        id: tool2_filament
-                        title: "Tool 2 Usage: "
-
-            BoxLayout:
-                #orientation: 'vertical'
-                size: self.width, 70
-                size_hint: 1, None
-                TimeLabel:
-                    id: time_in
-                    time: "12:34:54"
-                    title: 'Printed'
-                TimeLabel:
-                    id: time_remaining
-                    time: "10:47:32"
-                    title: 'Remaining'
-                TimeLabel:
-                    id: time_total
-                    time: "22:21:12"
-                    title: 'Total'
-            ProgressBar:
-                id: progress
-                max: 100
-                value: 56
-                padding: 5
-                size: self.width, 30
-                size_hint: 1, None
-            BoxLayout:
-                size_hint: 1, None
-                size: self.width, 40
-                Button:
-                    text: "Print"
-                    id: print_button
-                    on_press: Server.printer.start_print()
-                Button:
-                    text: "Pause"
-                    id: pause_button
-                    on_press: Server.printer.toggle_pause_print()
-                Button:
-                    text: "Cancel"
-                    id: cancel_button
-                    on_press: Server.printer.cancel_print()
-                    background_color: 2, .5, .5, 1
     TabbedPanelItem:
         text: 'tab2'
         BoxLayout:
@@ -211,4 +214,3 @@
             ScrollView:
                 BoxLayout:
                     id: file_list
-                    
