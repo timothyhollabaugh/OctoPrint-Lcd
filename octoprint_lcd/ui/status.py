@@ -1,5 +1,3 @@
-
-#from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 
 import octoprint.server as Server

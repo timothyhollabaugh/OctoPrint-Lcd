@@ -1,3 +1,0 @@
-title=Octoprint
-author=Tim
-orientation=landscape

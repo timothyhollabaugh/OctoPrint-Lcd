@@ -192,6 +192,17 @@
                 on_press: Server.printer.cancel_print()
                 background_color: 2, .5, .5, 1
 
+<ScrollButton@Button>
+    size_hint: None, None
+    size: 480, 40
+
+<FilesTab>:
+    BoxLayout:
+        Label:
+            text: "Info"
+    BoxLayout:
+        id: file_list
+
 <OctoprintLcd>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     do_default_tab: False
@@ -210,9 +221,5 @@
                 text: 'Button that does nothing'
     TabbedPanelItem:
         text: 'Files'
-        BoxLayout:
-            BoxLayout:
-
-            ScrollView:
-                BoxLayout:
-                    id: file_list
+        FilesTab:
+            id: files_tab

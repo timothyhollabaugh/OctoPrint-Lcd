@@ -14,29 +14,12 @@ def start():
     import octoprint.server as Server
 
     from .status import StatusTab
+    from .files import FilesTab
 
     Config.set('graphics', 'height', '480')
     Config.set('graphics', 'width', '800')
     Config.set('graphics', 'borderless', '1')
     Config.write()
-
-    class FileView(BoxLayout):
-
-        name = StringProperty("[NAME]")
-        uploaded = StringProperty("[UPLOADED]")
-        size = StringProperty("[SIZE]")
-
-        def __init__(self, destination, path):
-            self.destination = destination
-            self.path = path
-            self.info = Server.fileManager.get_metadata(self.destination, self.path)
-
-            print info
-
-            self.add_widget(Label(text="HELOSDS"))
-
-        def update(self):
-            self.info = Server.fileManager.get_metadata(self.destination, self.path)
 
     class OctoprintLcd(TabbedPanel):
 
@@ -48,6 +31,7 @@ def start():
         def update(self, dt):
             pass
             self.ids.status_tab.update(dt)
+            self.ids.files_tab.update(dt)
 
     class OctoprintLcdApp(App):
 
