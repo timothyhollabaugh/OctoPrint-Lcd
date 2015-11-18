@@ -13,19 +13,19 @@ class StatusTab(BoxLayout):
                 if 'bed' in temps.keys():
                     self.ids.bed_status.actual = str("%3.1f" % temps['bed']['actual'])
                     self.ids.bed_status.target = str("%3.0f" % temps['bed']['target'])
-            #if 'tool0' in temps.keys():
-                #self.ids.tool0_status.actual = str("%3.1f" % temps['tool0']['actual'])
-                #self.ids.tool0_status.target = str("%3.0f" % temps['tool0']['target'])
-            #if 'tool1' in temps.keys():
-                #self.ids.tool1_status.actual = str("%3.1f" % temps['tool1']['actual'])
-                #self.ids.tool1_status.target = str("%3.0f" % temps['tool1']['target'])
-            #if 'tool2' in temps.keys():
-                #self.ids.tool2_status.actual = str("%3.1f" % temps['tool2']['actual'])
-                #self.ids.tool2_status.target = str("%3.0f" % temps['tool2']['target'])
+            if 'tool0' in temps.keys():
+                self.ids.tool0_status.actual = str("%3.1f" % temps['tool0']['actual'])
+                self.ids.tool0_status.target = str("%3.0f" % temps['tool0']['target'])
+            if 'tool1' in temps.keys():
+                self.ids.tool1_status.actual = str("%3.1f" % temps['tool1']['actual'])
+                self.ids.tool1_status.target = str("%3.0f" % temps['tool1']['target'])
+            if 'tool2' in temps.keys():
+                self.ids.tool2_status.actual = str("%3.1f" % temps['tool2']['actual'])
+                self.ids.tool2_status.target = str("%3.0f" % temps['tool2']['target'])
 
 
         data = Server.printer.get_current_data()
-        print data
+
         filament = data['job']['filament']
 
         changed = []
