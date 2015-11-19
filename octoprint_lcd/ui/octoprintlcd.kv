@@ -197,7 +197,19 @@
         Label:
             text: "Info"
     BoxLayout:
-        id: file_list
+        ScrollView:
+            size: self.size
+            GridLayout:
+                id: file_list
+                size_hint_y: None
+                cols: 1
+                #row_default_height: '20dp'
+                #row_force_default: True
+                spacing: 0, 0
+                padding: 0, 0
+
+                Label:
+                    text: "Lorem ipsum dolor sit amet"
 
 <OctoprintLcd>:
     pos_hint: {'center_x': .5, 'center_y': .5}
