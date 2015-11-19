@@ -192,24 +192,56 @@
                 on_press: Server.printer.cancel_print()
                 background_color: 2, .5, .5, 1
 
+<FileView>:
+    title: ""
+    date: ""
+
+    orientation: 'vertical'
+
+    canvas.before:
+        Color:
+            rgba: 0.4, 0.4, 0.4, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: root.title
+        font_size: 24
+        size_hint: 1, 0.6
+        #text_size: self.width, None
+        #size: self.texture_size[0], self.texture_size[1]
+        halign: 'right'
+    Label:
+        text: root.date
+        font_size: 16
+        size_hint: 1, 0.4
+        #text_size: self.width, None
+        #size: self.texture_size[0], self.texture_size[1]
+        halign: 'left'
+
 <FilesTab>:
     BoxLayout:
         Label:
             text: "Info"
     BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Files:"
+            font_size: 36
+            size_hint: 1, None
+            text_size: self.width, None
+            size: self.texture_size[0], self.texture_size[1]
+            halign: 'center'
+            padding: 0, 15
         ScrollView:
             size: self.size
             GridLayout:
                 id: file_list
                 size_hint_y: None
                 cols: 1
-                #row_default_height: '20dp'
-                #row_force_default: True
                 spacing: 0, 0
                 padding: 0, 0
-
-                Label:
-                    text: "Lorem ipsum dolor sit amet"
 
 <OctoprintLcd>:
     pos_hint: {'center_x': .5, 'center_y': .5}
