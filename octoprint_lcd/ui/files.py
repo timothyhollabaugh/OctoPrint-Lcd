@@ -91,6 +91,7 @@ class FilesTab(BoxLayout):
                             if date <= int(children[w-1].date) and date >= int(children[w].date):
                                 #print date, children[w-1].date, children[w].date
                                 self.ids.file_list.add_widget(btn, index = w-1)
+                                break
                                 #for c in children:
                                 #    print c.date
                                 #time.sleep(1)
