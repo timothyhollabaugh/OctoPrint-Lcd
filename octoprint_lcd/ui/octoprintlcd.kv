@@ -1,6 +1,7 @@
 #: kivy 1.9.0
 
 #:import Server octoprint.server
+#:import datetime datetime
 
 #<Label>:
     #font_name: '/home/tim/python/kivy/OctoPrint-Lcd/octoprint_lcd/ui/fonts/Ubuntu-M.ttf'
@@ -194,9 +195,10 @@
 
 <FileView>:
     title: ""
-    date: ""
+    date: "0"
 
     orientation: 'vertical'
+    padding: 5, 10
 
     canvas.before:
         Color:
@@ -204,21 +206,33 @@
         Rectangle:
             pos: self.pos
             size: self.size
+        Color:
+            rgba: 0.5, 0.5, 0.5, 1
+        Line:
+            points: self.pos[0]+15, self.pos[1], self.pos[0]+self.width-15, self.pos[1]
 
     Label:
         text: root.title
         font_size: 24
         size_hint: 1, 0.6
-        #text_size: self.width, None
-        #size: self.texture_size[0], self.texture_size[1]
-        halign: 'right'
-    Label:
-        text: root.date
-        font_size: 16
-        size_hint: 1, 0.4
-        #text_size: self.width, None
-        #size: self.texture_size[0], self.texture_size[1]
-        halign: 'left'
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'center'
+    BoxLayout:
+        Label:
+            text: datetime.datetime.fromtimestamp(int(root.date)).strftime('%a, %b %-d, %Y')
+            font_size: 16
+            size_hint: 1, 0.4
+            text_size: self.width, None
+            size: self.texture_size[0], self.texture_size[1]
+            halign: 'left'
+        Label:
+            text: datetime.datetime.fromtimestamp(int(root.date)).strftime('%-I:%-M:%-S%p')
+            font_size: 16
+            size_hint: 1, 0.4
+            text_size: self.width, None
+            size: self.texture_size[0], self.texture_size[1]
+            halign: 'right'
 
 <FilesTab>:
     BoxLayout:

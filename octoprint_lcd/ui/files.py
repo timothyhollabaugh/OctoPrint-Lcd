@@ -34,6 +34,8 @@ class FileView(ToggleButtonBehavior, BoxLayout):
         with self.canvas.before:
             Color(r, g, b, 1)
             Rectangle(pos=self.pos, size=self.size)
+            Color(0.5, 0.5, 0.5, 1)
+            Line(points=[self.pos[0]+15, self.pos[1], self.pos[0]+self.width-15, self.pos[1]])
 
 class FilesTab(BoxLayout):
     file_list=ObjectProperty(None)
@@ -52,8 +54,8 @@ class FilesTab(BoxLayout):
             self.first = False
 
         if self.files != self.oldFiles:
-            print "different"
-            print self.oldFiles
+            #print "different"
+            #print self.oldFiles
             self.ids.file_list.clear_widgets()
 
             #dates = [2, 3, 1, 5, 4]
@@ -78,7 +80,7 @@ class FilesTab(BoxLayout):
                         #    print c.date
                         #time.sleep(1)
                     elif date > int(children[len(children)-1].date):
-                        print "Second:", date , children[len(children)-1].date
+                        #print "Second:", date , children[len(children)-1].date
                         self.ids.file_list.add_widget(btn, index=len(children))
                         #for c in children:
                         #    print c.date
