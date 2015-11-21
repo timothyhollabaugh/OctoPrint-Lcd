@@ -2,6 +2,17 @@ from kivy.uix.boxlayout import BoxLayout
 
 import octoprint.server as Server
 
+class StatusBox(BoxLayout):
+    def update(self, dt):
+        data = Server.printer.get_current_data()
+
+        self.ids.status.text = data['state']['text']
+
+        file = data['job']['file']['name']
+        if file == None:
+            file = ""
+        self.ids.file.text = file
+
 class StatusTab(BoxLayout):
     def update(self, dt):
         temps = Server.printer.get_current_temperatures()

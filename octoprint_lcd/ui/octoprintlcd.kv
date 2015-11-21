@@ -193,6 +193,15 @@
                 on_press: Server.printer.cancel_print()
                 background_color: 2, .5, .5, 1
 
+<StatusBox>:
+    orientation: 'vertical'
+    size_hint: 0.2, 0.09
+    pos_hint: {'x': 0.8, 'y': 0.905}
+    Label:
+        id: status
+    Label:
+        id: file
+
 <FileView>:
     title: ""
     date: "0"
@@ -414,19 +423,24 @@
         orientation: 'vertical'
 
 <OctoprintLcd>:
-    pos_hint: {'center_x': .5, 'center_y': .5}
-    do_default_tab: False
 
-    TabbedPanelItem:
-        text: 'Status'
-        StatusTab:
-            id: status_tab
+    TabbedPanel:
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        do_default_tab: False
 
-    TabbedPanelItem:
-        text: 'Printer'
-        PrinterTab:
-            id: printer_tab
-    TabbedPanelItem:
-        text: 'Files'
-        FilesTab:
-            id: files_tab
+        TabbedPanelItem:
+            text: 'Status'
+            StatusTab:
+                id: status_tab
+
+        TabbedPanelItem:
+            text: 'Printer'
+            PrinterTab:
+                id: printer_tab
+        TabbedPanelItem:
+            text: 'Files'
+            FilesTab:
+                id: files_tab
+
+    StatusBox:
+        id: status_box

@@ -8,6 +8,7 @@ def start():
     from kivy.properties import StringProperty
     from kivy.uix.boxlayout import BoxLayout
     from kivy.uix.tabbedpanel import TabbedPanel
+    from kivy.uix.floatlayout import FloatLayout
 
     from kivy.config import Config
 
@@ -22,7 +23,7 @@ def start():
     Config.set('graphics', 'borderless', '1')
     Config.write()
 
-    class OctoprintLcd(TabbedPanel):
+    class OctoprintLcd(FloatLayout):
 
         def __init__(self):
             super(OctoprintLcd, self).__init__()
@@ -32,6 +33,7 @@ def start():
         def update(self, dt):
             pass
             self.ids.status_tab.update(dt)
+            self.ids.status_box.update(dt)
             self.ids.printer_tab.update(dt)
             self.ids.files_tab.update(dt)
 
