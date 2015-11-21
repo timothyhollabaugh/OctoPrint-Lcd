@@ -15,6 +15,7 @@ def start():
 
     from .status import StatusTab
     from .files import FilesTab
+    from .printer import PrinterTab
 
     Config.set('graphics', 'height', '480')
     Config.set('graphics', 'width', '800')
@@ -31,6 +32,7 @@ def start():
         def update(self, dt):
             pass
             self.ids.status_tab.update(dt)
+            self.ids.printer_tab.update(dt)
             self.ids.files_tab.update(dt)
 
     class OctoprintLcdApp(App):

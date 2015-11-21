@@ -347,6 +347,72 @@
                 spacing: 0, 0
                 padding: 0, 0
 
+<PrinterTab>:
+    BoxLayout:
+        orientation: 'vertical'
+        #spacing: 10
+        #padding: 20
+
+        Label:
+            text: "Connection:"
+            font_size: 36
+            size_hint: 1, 0.15
+            text_size: self.width, None
+            size: self.texture_size[0], self.texture_size[1]
+            halign: 'center'
+            padding: 0, 15
+
+        BoxLayout:
+            size_hint_y: 0.25
+            orientation: 'vertical'
+            Label:
+                text: "Serial Port"
+                font_size: 18
+                size_hint: 1, None
+                text_size: self.width, None
+                size: self.texture_size[0], self.texture_size[1]
+                halign: 'center'
+                padding: 0, 15
+            Spinner:
+                id: ports
+        BoxLayout:
+            size_hint_y: 0.25
+            orientation: 'vertical'
+            Label:
+                text: "Baudrate"
+                font_size: 18
+                size_hint: 1, None
+                text_size: self.width, None
+                size: self.texture_size[0], self.texture_size[1]
+                halign: 'center'
+                padding: 0, 15
+            Spinner:
+                id: baudrates
+
+        BoxLayout:
+            size_hint_y: 0.25
+            orientation: 'vertical'
+            Label:
+                text: "Printer Profile"
+                font_size: 18
+                size_hint: 1, None
+                text_size: self.width, None
+                size: self.texture_size[0], self.texture_size[1]
+                halign: 'center'
+                padding: 0, 15
+            Spinner:
+                id: profiles
+
+        BoxLayout:
+            size_hint_y: 0.1
+
+        Button:
+            size_hint_y: 0.11
+            id: connect
+            text: "Connect"
+    BoxLayout:
+        orientation: 'vertical'
+
 <OctoprintLcd>:
     pos_hint: {'center_x': .5, 'center_y': .5}
     do_default_tab: False
@@ -357,12 +423,9 @@
             id: status_tab
 
     TabbedPanelItem:
-        text: 'tab2'
-        BoxLayout:
-            Label:
-                text: 'Second tab content area'
-            Button:
-                text: 'Button that does nothing'
+        text: 'Printer'
+        PrinterTab:
+            id: printer_tab
     TabbedPanelItem:
         text: 'Files'
         FilesTab:
