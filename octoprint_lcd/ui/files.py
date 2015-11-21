@@ -108,6 +108,9 @@ class FilesTab(BoxLayout):
             self.tool1v = " - - "
             self.tool2l = " - - "
             self.tool2v = " - - "
+            self.ids.print_button.disabled = True
+            self.ids.load_button.disabled = True
+            self.ids.delete_button.disabled = True
         else:
             #print self.selected.title
             file = self.files['local'][self.selected.title]
@@ -149,3 +152,15 @@ class FilesTab(BoxLayout):
                 else:
                     self.tool2l = " - - "
                     self.tool2v = " - - "
+
+            if Server.printer.is_printing():
+                self.ids.print_button.disabled = True
+            else:
+                self.ids.print_button.disabled = False
+
+            if Server.printer.get_current_job()['file']['name'] == f.title or Server.printer.is_printing():
+                self.ids.load_button.disabled = True
+            else:
+                self.ids.load_button.disabled = False
+
+            self.ids.delete_button.disabled = False

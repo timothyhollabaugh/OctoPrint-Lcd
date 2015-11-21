@@ -319,11 +319,11 @@
                     on_press: Server.printer.select_file(Server.fileManager.path_on_disk('local', root.title), False, printAfterSelect=True)
                 Button:
                     text: "Load"
-                    id: pause_button
+                    id: load_button
                     on_press: Server.printer.select_file(Server.fileManager.path_on_disk('local', root.title), False)
                 Button:
                     text: "Delete"
-                    id: cancel_button
+                    id: delete_button
                     on_press: Server.fileManager.remove_file('local', root.title)
                     background_color: 2, .5, .5, 1
 
