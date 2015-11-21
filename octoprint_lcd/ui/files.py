@@ -39,6 +39,17 @@ class FileView(ToggleButtonBehavior, BoxLayout):
 
 class FilesTab(BoxLayout):
     file_list=ObjectProperty(None)
+    title = StringProperty("")
+    date = StringProperty("")
+    etime = StringProperty("")
+    ltime = StringProperty("")
+    tool0l = StringProperty("")
+    tool1l = StringProperty("")
+    tool2l = StringProperty("")
+    tool0v = StringProperty("")
+    tool1v = StringProperty("")
+    tool2v = StringProperty("")
+    selected = None
     first = True
     oldFiles = {}
     files = {}
@@ -54,53 +65,87 @@ class FilesTab(BoxLayout):
             self.first = False
 
         if self.files != self.oldFiles:
-            #print "different"
-            #print self.oldFiles
             self.ids.file_list.clear_widgets()
-
-            #dates = [2, 3, 1, 5, 4]
-
+            #print self.files
             for i in self.files['local']:
-            #for i in dates:
                 btn = FileView(self.files['local'][i], size_hint_y=None, height=60)
-                #btn = FileView({'name': 'Test', 'date': i}, size_hint_y=None, height=60)
                 children = self.ids.file_list.children
                 date = self.files['local'][i]['date']
-                #date = i
-                #print len(children)
-                #print "Date:", date
 
                 if len(children) > 0:
-                    #print "Child:", children[0].date
                     if date <= int(children[0].date) :
-                        #print "First:", date, children[0].date
-                        #print date <= children[0].date
                         self.ids.file_list.add_widget(btn, index=0)
-                        #for c in children:
-                        #    print c.date
-                        #time.sleep(1)
                     elif date > int(children[len(children)-1].date):
-                        #print "Second:", date , children[len(children)-1].date
                         self.ids.file_list.add_widget(btn, index=len(children))
-                        #for c in children:
-                        #    print c.date
-                        #time.sleep(1)
                     else:
-                        #print "Third: "
                         for w in range(len(children)):
                             w = w
-                            #print "w: ", w
                             if date <= int(children[w-1].date) and date >= int(children[w].date):
-                                #print date, children[w-1].date, children[w].date
                                 self.ids.file_list.add_widget(btn, index = w-1)
                                 break
-                                #for c in children:
-                                #    print c.date
-                                #time.sleep(1)
                 else:
                     self.ids.file_list.add_widget(btn)
-                    for c in children:
-                        print c.date
-                    time.sleep(1)
+                    #for c in children:
+                    #    print c.date
+                    #time.sleep(1)
 
             self.oldFiles = self.files
+
+        self.selected = None
+        for f in ToggleButtonBehavior.get_widgets('files'):
+            if f.state == 'down':
+                self.selected = f
+                break
+
+        if self.selected == None or not self.selected.title in self.files['local'].keys():
+            #print "None"
+            self.title = "No File"
+            self.date = ""
+            self.etime = "--:--:--"
+            self.tool0l = " - - "
+            self.tool0v = " - - "
+            self.tool1l = " - - "
+            self.tool1v = " - - "
+            self.tool2l = " - - "
+            self.tool2v = " - - "
+        else:
+            #print self.selected.title
+            file = self.files['local'][self.selected.title]
+            #print file
+            self.title = f.title
+            self.date = str(f.date)
+
+            if('analysis' in file.keys()):
+                etime = file['analysis']['estimatedPrintTime']
+
+                if not etime == None:
+                    m, s = divmod(int(etime), 60)
+                    h, m = divmod(m, 60)
+                else:
+                    h, m, s = 0, 0, 0
+
+                self.etime = str("%02d:%02d:%02d" % (h, m, s))
+            else:
+                self.etime = "--:--:--"
+
+            filament = file['analysis']['filament']
+            changed = []
+            if filament != None:
+                if 'tool0' in filament.keys():
+                    self.tool0l = str("%.2f" % (filament['tool0']['length']/1000))
+                    self.tool0v = str("%3.2f" % filament['tool0']['volume'])
+                else:
+                    self.tool0l = " - - "
+                    self.tool0v = " - - "
+                if 'tool1' in filament.keys():
+                    self.tool1l = str("%.2f" % (filament['tool0']['length']/1000))
+                    self.tool1v = str("%3.2f" % filament['tool0']['volume'])
+                else:
+                    self.tool1l = " - - "
+                    self.tool1v = " - - "
+                if 'tool2' in filament.keys():
+                    self.tool2l = str("%.2f" % (filament['tool0']['length']/1000))
+                    self.tool2v = str("%3.2f" % filament['tool0']['volume'])
+                else:
+                    self.tool2l = " - - "
+                    self.tool2v = " - - "

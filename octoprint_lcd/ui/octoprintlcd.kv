@@ -227,7 +227,7 @@
             size: self.texture_size[0], self.texture_size[1]
             halign: 'left'
         Label:
-            text: datetime.datetime.fromtimestamp(int(root.date)).strftime('%-I:%-M:%-S%p')
+            text: datetime.datetime.fromtimestamp(int(root.date)).strftime('%-I:%M:%S%p')
             font_size: 16
             size_hint: 1, 0.4
             text_size: self.width, None
@@ -235,11 +235,101 @@
             halign: 'right'
 
 <FilesTab>:
+    title: "No File"
+    date: ""
+    etime: "00:00:00"
+    ltime: "00:00:00"
+    tool0l: ""
+    tool1l: ""
+    tool2l: ""
+    tool0v: ""
+    tool1v: ""
+    tool2v: ""
+
     BoxLayout:
-        Label:
-            text: "Info"
+        size_hint_x: 0.55
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: root.title
+                font_size: 36
+                size_hint: 1, None
+                text_size: self.width, None
+                size: self.texture_size[0], self.texture_size[1]
+                halign: 'center'
+                padding: 0, 15
+
+            BoxLayout:
+                size_hint_y: 0.2
+                padding: 10
+                Label:
+                    text: "" if root.date == "" else datetime.datetime.fromtimestamp(int(root.date)).strftime('%a, %b %-d, %Y')
+                    font_size: 24
+                    size_hint: 0.6, 1
+                    text_size: self.width, None
+                    size: self.texture_size[0], self.texture_size[1]
+                    halign: 'left'
+                Label:
+                    text: "" if root.date == "" else datetime.datetime.fromtimestamp(int(root.date)).strftime('%-I:%M:%S%p')
+                    font_size: 24
+                    size_hint: 0.4, 1
+                    text_size: self.width, None
+                    size: self.texture_size[0], self.texture_size[1]
+                    halign: 'right'
+
+            BoxLayout:
+                size_hint_y: 0.4
+                padding: 10
+                TimeLabel:
+                    size_hint_y: 0.4
+                    time: root.etime
+                    title: 'Estimated'
+
+            BoxLayout:
+                size_hint_y: 0.05
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 10
+                size_hint_y: 0.5
+                FilamentLabel:
+                    volume: root.tool0l
+                    length: root.tool0v
+                    title: "Tool 0 Usage: "
+                FilamentLabel:
+                    volume: root.tool1l
+                    length: root.tool1v
+                    title: "Tool 1 Usage: "
+                FilamentLabel:
+                    volume: root.tool2l
+                    length: root.tool2v
+                    title: "Tool 2 Usage: "
+
+            BoxLayout:
+                size_hint_y: 0.25
+
+            BoxLayout:
+                size_hint: 1, None
+                size: self.width, 40
+                size_hint: 1, None
+                size: self.width, 40
+                Button:
+                    text: "Print"
+                    id: print_button
+                    on_press: Server.printer.select_file(Server.fileManager.path_on_disk('local', root.title), False, printAfterSelect=True)
+                Button:
+                    text: "Load"
+                    id: pause_button
+                    on_press: Server.printer.select_file(Server.fileManager.path_on_disk('local', root.title), False)
+                Button:
+                    text: "Delete"
+                    id: cancel_button
+                    on_press: Server.fileManager.remove_file('local', root.title)
+                    background_color: 2, .5, .5, 1
+
     BoxLayout:
         orientation: 'vertical'
+        size_hint_x: 0.45
         Label:
             text: "Files:"
             font_size: 36
