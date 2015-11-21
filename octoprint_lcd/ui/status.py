@@ -20,8 +20,8 @@ class StatusTab(BoxLayout):
         if Server.printer.get_current_connection()[3] != None:
             if Server.printer.get_current_connection()[3]['heatedBed']:
                 if 'bed' in temps.keys():
-                    self.ids.bed_status.actual = str("%3.1f" % temps['bed']['actual'])
-                    self.ids.bed_status.target = str("%3.0f" % temps['bed']['target'])
+                    self.ids.bed_status.actual = str("%3.1f" % temps['bed']['actual']) if temps['bed']['actual'] > 1 else "--"
+                    self.ids.bed_status.target = str("%3.0f" % temps['bed']['target']) if temps['bed']['actual'] > 1 else "--"
             if 'tool0' in temps.keys():
                 self.ids.tool0_status.actual = str("%3.1f" % temps['tool0']['actual'])
                 self.ids.tool0_status.target = str("%3.0f" % temps['tool0']['target'])
