@@ -153,12 +153,12 @@ class FilesTab(BoxLayout):
                     self.tool2l = " - - "
                     self.tool2v = " - - "
 
-            if Server.printer.is_printing():
+            if Server.printer.is_printing() or Server.printer.is_closed_or_error():
                 self.ids.print_button.disabled = True
             else:
                 self.ids.print_button.disabled = False
 
-            if Server.printer.get_current_job()['file']['name'] == f.title or Server.printer.is_printing():
+            if Server.printer.get_current_job()['file']['name'] == f.title or Server.printer.is_printing() or Server.printer.is_closed_or_error():
                 self.ids.load_button.disabled = True
             else:
                 self.ids.load_button.disabled = False
