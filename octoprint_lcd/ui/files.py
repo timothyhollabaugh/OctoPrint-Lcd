@@ -129,30 +129,34 @@ class FilesTab(BoxLayout):
 
                 self.etime = str("%02d:%02d:%02d" % (h, m, s))
                 filament = file['analysis']['filament']
+
+                if filament != None:
+                    if 'tool0' in filament.keys():
+                        self.tool0l = str("%.2f" % (filament['tool0']['length']/1000))
+                        self.tool0v = str("%3.2f" % filament['tool0']['volume'])
+                    else:
+                        self.tool0l = " - - "
+                        self.tool0v = " - - "
+                    if 'tool1' in filament.keys():
+                        self.tool1l = str("%.2f" % (filament['tool0']['length']/1000))
+                        self.tool1v = str("%3.2f" % filament['tool0']['volume'])
+                    else:
+                        self.tool1l = " - - "
+                        self.tool1v = " - - "
+                    if 'tool2' in filament.keys():
+                        self.tool2l = str("%.2f" % (filament['tool0']['length']/1000))
+                        self.tool2v = str("%3.2f" % filament['tool0']['volume'])
+                    else:
+                        self.tool2l = " - - "
+                        self.tool2v = " - - "
             else:
                 self.etime = "--:--:--"
-                filament = "- -"
-
-            changed = []
-            if filament != None:
-                if 'tool0' in filament.keys():
-                    self.tool0l = str("%.2f" % (filament['tool0']['length']/1000))
-                    self.tool0v = str("%3.2f" % filament['tool0']['volume'])
-                else:
-                    self.tool0l = " - - "
-                    self.tool0v = " - - "
-                if 'tool1' in filament.keys():
-                    self.tool1l = str("%.2f" % (filament['tool0']['length']/1000))
-                    self.tool1v = str("%3.2f" % filament['tool0']['volume'])
-                else:
-                    self.tool1l = " - - "
-                    self.tool1v = " - - "
-                if 'tool2' in filament.keys():
-                    self.tool2l = str("%.2f" % (filament['tool0']['length']/1000))
-                    self.tool2v = str("%3.2f" % filament['tool0']['volume'])
-                else:
-                    self.tool2l = " - - "
-                    self.tool2v = " - - "
+                self.tool0l = " - - "
+                self.tool0v = " - - "
+                self.tool1l = " - - "
+                self.tool1v = " - - "
+                self.tool2l = " - - "
+                self.tool2v = " - - "
 
             if Server.printer.is_printing() or Server.printer.is_closed_or_error():
                 self.ids.print_button.disabled = True
