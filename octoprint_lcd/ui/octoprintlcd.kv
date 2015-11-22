@@ -418,10 +418,149 @@
     BoxLayout:
         orientation: 'vertical'
 
+<TempKeypad>:
+
+    title: ""
+    temp: ""
+    tempIn: tempIn
+
+    orientation: 'vertical'
+    size_hint_x: 0.375
+    pos_hint: {'x': 0.625}
+    spacing: 30
+
+    #padding: 2.5
+
+    canvas.before:
+        Color:
+            rgb: 0, 0, 0
+        Line:
+            rectangle: self.x+1,self.y+1,self.width-1,self.height-1
+            width: 5
+        Color:
+            rgb: 0.3, 0.3, 0.3
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: root.title
+        font_size: 36
+        size_hint: 1, 0.15
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'center'
+        padding: 0, 15
+
+    Label:
+        id: tempIn
+        text: root.temp
+        font_size: 36
+        size_hint: 1, 0.15
+        text_size: self.width, None
+        size: self.texture_size[0], self.texture_size[1]
+        halign: 'right'
+        color: 0, 0, 0, 1
+
+        canvas.before:
+            Color:
+                rgb: 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    GridLayout:
+        id: keypad
+        rows: 4
+        cols: 3
+        size_hint_y: 0.6
+        Button:
+            text: "7"
+            on_press: tempIn.text = tempIn.text + '7'
+        Button:
+            text: "8"
+            on_press: tempIn.text = tempIn.text + '8'
+        Button:
+            text: "9"
+            on_press: tempIn.text = tempIn.text + '8'
+
+        Button:
+            text: "4"
+            on_press: tempIn.text = tempIn.text + '4'
+        Button:
+            text: "5"
+            on_press: tempIn.text = tempIn.text + '5'
+        Button:
+            text: "6"
+            on_press: tempIn.text = tempIn.text + '6'
+
+        Button:
+            text: "1"
+            on_press: tempIn.text = tempIn.text + '1'
+        Button:
+            text: "2"
+            on_press: tempIn.text = tempIn.text + '2'
+        Button:
+            text: "3"
+            on_press: tempIn.text = tempIn.text + '3'
+
+        Button:
+            text: "Back"
+            on_press: tempIn.text = tempIn.text[:-1]
+        Button:
+            text: "0"
+            on_press: tempIn.text = tempIn.text + '0'
+        Button:
+            text: "Done"
+            on_press: root.remove()
+
 <ControlTab>:
     BoxLayout:
         BoxLayout:
-
+            orientation: 'vertical'
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 5
+                spacing: 5
+                size_hint_y: 0.4
+                BoxLayout:
+                    TemperatureLabel:
+                        id: bed_status
+                        title: "Bed:"
+                        size_hint_x: 0.8
+                    Button:
+                        text: "Set"
+                        size_hint_x: 0.2
+                        on_press: root.showKeyboard('bed', 'Bed')
+                BoxLayout:
+                    TemperatureLabel:
+                        id: tool0_status
+                        title: "Tool 0:"
+                        size_hint_x: 0.8
+                    Button:
+                        text: "Set"
+                        size_hint_x: 0.2
+                        on_press: root.showKeyboard('tool0', 'Tool 0')
+                BoxLayout:
+                    TemperatureLabel:
+                        id: tool1_status
+                        title: "Tool 1:"
+                        size_hint_x: 0.8
+                    Button:
+                        text: "Set"
+                        size_hint_x: 0.2
+                        on_press: root.showKeyboard('tool1', 'Tool 1')
+                BoxLayout:
+                    TemperatureLabel:
+                        id: tool2_status
+                        title: "Tool 2:"
+                        size_hint_x: 0.8
+                    Button:
+                        text: "Set"
+                        size_hint_x: 0.2
+                        on_press: root.showKeyboard('tool2', 'Tool 2')
+            BoxLayout:
+                size_hint_y: 0.6
         GridLayout:
             cols: 2
             rows: 2
@@ -528,6 +667,8 @@
                     group: "xystep"
                     allow_no_selection: False
 
+    #TempKeypad:
+    #    id: keyboard
 
 <OctoprintLcd>:
 

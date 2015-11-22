@@ -33,7 +33,7 @@ class PrinterTab(BoxLayout):
         self.connection = Server.printer.get_current_connection()
 
         if self.connection != self.oldConnection:
-            print self.connection
+            #print self.connection
 
             if self.connection[0] != 'Closed':
                 self.ids.ports.disabled = True
