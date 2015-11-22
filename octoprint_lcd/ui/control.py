@@ -14,7 +14,7 @@ class ControlTab(FloatLayout):
             step = 0
             for f in ToggleButtonBehavior.get_widgets('xystep'):
                 if f.state == 'down':
-                    step = int(f.text)
+                    step = float(f.text)
                     break
             #print step*mult
             Server.printer.jog(axis, step*mult)
@@ -23,7 +23,6 @@ class ControlTab(FloatLayout):
             step = 0
             for f in ToggleButtonBehavior.get_widgets('zstep'):
                 if f.state == 'down':
-                    step = int(f.text)
                     break
             #print step*mult
             Server.printer.jog(axis, step*mult)
