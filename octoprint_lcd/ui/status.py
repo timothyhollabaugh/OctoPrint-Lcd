@@ -23,14 +23,14 @@ class StatusTab(BoxLayout):
                     self.ids.bed_status.actual = str("%3.1f" % temps['bed']['actual']) if temps['bed']['actual'] > 1 else "--"
                     self.ids.bed_status.target = str("%3.0f" % temps['bed']['target']) if temps['bed']['actual'] > 1 else "--"
             if 'tool0' in temps.keys():
-                self.ids.tool0_status.actual = str("%3.1f" % temps['tool0']['actual'])
-                self.ids.tool0_status.target = str("%3.0f" % temps['tool0']['target'])
+                self.ids.tool0_status.actual = str("%3.1f" % temps['tool0']['actual']) if temps['tool0']['actual'] > 1 else "--"
+                self.ids.tool0_status.target = str("%3.0f" % temps['tool0']['target']) if temps['tool0']['actual'] > 1 else "--"
             if 'tool1' in temps.keys():
-                self.ids.tool1_status.actual = str("%3.1f" % temps['tool1']['actual'])
-                self.ids.tool1_status.target = str("%3.0f" % temps['tool1']['target'])
+                self.ids.tool1_status.actual = str("%3.1f" % temps['tool1']['actual']) if temps['tool1']['actual'] > 1 else "--"
+                self.ids.tool1_status.target = str("%3.0f" % temps['tool1']['target']) if temps['tool1']['actual'] > 1 else "--"
             if 'tool2' in temps.keys():
-                self.ids.tool2_status.actual = str("%3.1f" % temps['tool2']['actual'])
-                self.ids.tool2_status.target = str("%3.0f" % temps['tool2']['target'])
+                self.ids.tool2_status.actual = str("%3.1f" % temps['tool2']['actual']) if temps['tool2']['actual'] > 1 else "--"
+                self.ids.tool2_status.target = str("%3.0f" % temps['tool2']['target']) if temps['tool2']['actual'] > 1 else "--"
 
 
         data = Server.printer.get_current_data()
