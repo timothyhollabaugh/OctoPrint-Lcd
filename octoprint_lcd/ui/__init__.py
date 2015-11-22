@@ -15,6 +15,7 @@ def start():
     import octoprint.server as Server
 
     from .status import StatusTab
+    from .control import ControlTab
     from .files import FilesTab
     from .printer import PrinterTab
 
@@ -34,6 +35,7 @@ def start():
             pass
             self.ids.status_tab.update(dt)
             self.ids.status_box.update(dt)
+            self.ids.control_tab.update(dt)
             self.ids.printer_tab.update(dt)
             self.ids.files_tab.update(dt)
 

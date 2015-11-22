@@ -3,10 +3,6 @@
 #:import Server octoprint.server
 #:import datetime datetime
 
-#<Label>:
-    #font_name: '/home/tim/python/kivy/OctoPrint-Lcd/octoprint_lcd/ui/fonts/Ubuntu-M.ttf'
-    #font_name: 'fonts/Ubuntu-M.ttf'
-
 <TimeLabel@BoxLayout>:
     time: "00:00:00"
     title: "No Time"
@@ -422,6 +418,117 @@
     BoxLayout:
         orientation: 'vertical'
 
+<ControlTab>:
+    BoxLayout:
+        BoxLayout:
+
+        GridLayout:
+            cols: 2
+            rows: 2
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                size_hint_x: None
+                width: 40
+
+                ToggleButton:
+                    id: z_100
+                    text: "100"
+                    group: "zstep"
+                    allow_no_selection: False
+                ToggleButton:
+                    id: z_10
+                    text: "10"
+                    group: "zstep"
+                    allow_no_selection: False
+                    state: 'down'
+                ToggleButton:
+                    id: z_1
+                    text: "1"
+                    group: "zstep"
+                    allow_no_selection: False
+                ToggleButton:
+                    id: z_0.1
+                    text: "0.1"
+                    group: "zstep"
+                    allow_no_selection: False
+
+            GridLayout:
+                cols: 3
+                rows: 3
+                spacing: 10
+                Button:
+                    id: z_home
+                    text: "Z Home"
+                    on_press: Server.printer.home(['z'])
+                Button:
+                    id: y_plus
+                    text: "Y+"
+                    on_press: root.jog('y', -1)
+                Button:
+                    id: z_up
+                    text: "Z+"
+                    on_press: root.jog('z', 1)
+
+                Button:
+                    id: x_minus
+                    text: "X-"
+                    on_press: root.jog('x', -1)
+                Button:
+                    id: xy_home
+                    text: "Home XY"
+                    on_press: Server.printer.home(['x', 'y'])
+                Button:
+                    id: x_plus
+                    text: "X+"
+                    on_press: root.jog('x', 1)
+
+                Button:
+                    id: home
+                    text: "Home All"
+                    on_press: Server.printer.home(['x', 'y', 'z'])
+                Button:
+                    id: y_minus
+                    text: "Y+"
+                    on_press: root.jog('y', 1)
+                Button:
+                    id: z_down
+                    text: "Z-"
+                    on_press: root.jog('z', -1)
+
+            BoxLayout:
+                size_hint_x: None
+                width: 40
+                size_hint_y: None
+                height: 40
+
+            BoxLayout:
+                size_hint_y: None
+                height: 40
+                ToggleButton:
+                    id: xy_0.1
+                    text: "0.1"
+                    group: "xystep"
+                    allow_no_selection: False
+                ToggleButton:
+                    id: xy_1
+                    text: "1"
+                    group: "xystep"
+                    allow_no_selection: False
+                ToggleButton:
+                    id: xy_10
+                    text: "10"
+                    group: "xystep"
+                    allow_no_selection: False
+                    state: 'down'
+                ToggleButton:
+                    id: xy_100
+                    text: "100"
+                    group: "xystep"
+                    allow_no_selection: False
+
+
 <OctoprintLcd>:
 
     TabbedPanel:
@@ -432,6 +539,11 @@
             text: 'Status'
             StatusTab:
                 id: status_tab
+
+        TabbedPanelItem:
+            text: 'Control'
+            ControlTab:
+                id: control_tab
 
         TabbedPanelItem:
             text: 'Printer'
