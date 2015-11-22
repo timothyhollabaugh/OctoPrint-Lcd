@@ -465,7 +465,7 @@
                 Button:
                     id: y_plus
                     text: "Y+"
-                    on_press: root.jog('y', -1)
+                    on_press: root.jog('y', 1)
                 Button:
                     id: z_up
                     text: "Z+"
@@ -490,8 +490,8 @@
                     on_press: Server.printer.home(['x', 'y', 'z'])
                 Button:
                     id: y_minus
-                    text: "Y+"
-                    on_press: root.jog('y', 1)
+                    text: "Y-"
+                    on_press: root.jog('y', -1)
                 Button:
                     id: z_down
                     text: "Z-"
