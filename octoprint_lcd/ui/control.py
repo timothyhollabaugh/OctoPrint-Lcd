@@ -16,7 +16,8 @@ class TempKeypad(BoxLayout):
         else:
             if super(TempKeypad, self).on_touch_down(touch):
                 return True
-            return False
+            else:
+                return False
 
     def remove(self):
         Server.printer.set_temperature(self.tool, int(self.tempIn.text))
