@@ -128,10 +128,11 @@ class FilesTab(BoxLayout):
                     h, m, s = 0, 0, 0
 
                 self.etime = str("%02d:%02d:%02d" % (h, m, s))
+                filament = file['analysis']['filament']
             else:
                 self.etime = "--:--:--"
+                filament = "- -"
 
-            filament = file['analysis']['filament']
             changed = []
             if filament != None:
                 if 'tool0' in filament.keys():
