@@ -23,6 +23,7 @@ class ControlTab(FloatLayout):
             step = 0
             for f in ToggleButtonBehavior.get_widgets('zstep'):
                 if f.state == 'down':
+                    step = float(f.text)
                     break
             #print step*mult
             Server.printer.jog(axis, step*mult)
