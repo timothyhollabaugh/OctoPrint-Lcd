@@ -559,8 +559,87 @@
                         text: "Set"
                         size_hint_x: 0.2
                         on_press: root.showKeyboard('tool2', 'Tool 2')
+
             BoxLayout:
-                size_hint_y: 0.6
+                size_hint_y: 0.05
+
+            BoxLayout:
+                size_hint_y: 0.1
+                #orientation: 'vertical'
+
+                Label:
+                    text: "Tool:"
+                    font_size: 24
+                    size_hint: 0.3, None
+                    text_size: self.width, None
+                    size: self.texture_size[0], self.texture_size[1]
+                    halign: 'center'
+                    padding: 0, 15
+
+                BoxLayout:
+                    spacing: 2
+                    padding: 5
+                    size_hintxy: 0.7
+                    Button:
+                        text: "Tool 0"
+                        on_press: Server.printer.change_tool('tool0')
+                    Button:
+                        text: "Tool 1"
+                        on_press: Server.printer.change_tool('tool1')
+                    Button:
+                        text: "Tool 2"
+                        on_press: Server.printer.change_tool('tool2')
+
+            BoxLayout:
+                size_hint_y: 0.05
+
+            BoxLayout:
+                size_hint_y: 0.2
+                orientation: 'vertical'
+                BoxLayout:
+                    #size_hint_y: None
+                    spacing: 2
+                    padding: 5
+                    #height: 40
+                    ToggleButton:
+                        id: e_5
+                        text: "5"
+                        group: "estep"
+                        allow_no_selection: False
+                        state: 'down'
+                    ToggleButton:
+                        id: e_10
+                        text: "10"
+                        group: "estep"
+                        allow_no_selection: False
+                    ToggleButton:
+                        id: e_50
+                        text: "50"
+                        group: "estep"
+                        allow_no_selection: False
+                    ToggleButton:
+                        id: e_100
+                        text: "100"
+                        group: "estep"
+                        allow_no_selection: False
+
+                BoxLayout:
+                    #2size_hint_y: None
+                    spacing: 2
+                    padding: 5, 0
+                    #height: 40
+                    Button:
+                        id: e_plus
+                        text: "Extrude"
+                        on_press: root.jog('e', 1)
+                    Button:
+                        id: e_minus
+                        text: "Retract"
+                        on_press: root.jog('e', -1)
+
+            BoxLayout:
+                size_hint_y: 0.2
+
         GridLayout:
             cols: 2
             rows: 2

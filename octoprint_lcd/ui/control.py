@@ -68,6 +68,15 @@ class ControlTab(FloatLayout):
             #print step*mult
             Server.printer.jog(axis, step*mult)
 
+        if 'e' in axis:
+            step = 0
+            for f in ToggleButtonBehavior.get_widgets('estep'):
+                if f.state == 'down':
+                    step = float(f.text)
+                    break
+            #print step*mult
+            Server.printer.jog(axis, step*mult)
+
     def showKeyboard(self, tool, title):
         keypad = TempKeypad()
         keypad.title = title
