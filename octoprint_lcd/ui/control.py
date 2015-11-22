@@ -14,13 +14,18 @@ class TempKeypad(BoxLayout):
         if self.collide_point(touch.pos[0], touch.pos[1]) and not self.ids.keypad.collide_point(touch.pos[0], touch.pos[1]):
             return True
         else:
-            if super(TempKeypad, self).on_touch_down(touch):
+            if not self.collide_point(touch.pos[0], touch.pos[1]):
+                self.remove()
+                return False
+            elif super(TempKeypad, self).on_touch_down(touch):
                 return True
             else:
                 return False
 
     def remove(self):
-        Server.printer.set_temperature(self.tool, int(self.tempIn.text))
+        print self.tool
+        if self.tempIn.text != "":
+            Server.printer.set_temperature(self.tool, int(self.tempIn.text))
         self.parent.remove_widget(self)
 
 class ControlTab(FloatLayout):
