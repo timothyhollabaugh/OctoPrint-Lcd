@@ -418,6 +418,30 @@
     BoxLayout:
         orientation: 'vertical'
 
+        BoxLayout:
+            size_hint_y: 0.63
+
+        BoxLayout:
+            size_hint_y: 0.1
+            Button:
+                text: "Printer On"
+                on_press: root.power(0)
+            Button:
+                text: "Printer Off"
+                on_press: root.power(1)
+
+        BoxLayout:
+            size_hint_y: 0.07
+
+        BoxLayout:
+            size_hint_y: 0.1
+            Button:
+                text: "Outlet On"
+                on_press: root.outlet(0)
+            Button:
+                text: "Outlet Off"
+                on_press: root.outlet(1)
+
 <TempKeypad>:
 
     title: ""
@@ -638,7 +662,22 @@
                         on_press: root.jog('e', -1)
 
             BoxLayout:
-                size_hint_y: 0.2
+                size_hint_y: 0.05
+
+            BoxLayout:
+                size_hint_y: 0.1
+                spacing: 2
+                padding: 5, 0
+                #height: 40
+                Button:
+                    text: "Motors On"
+                    on_press: Server.printer.commands("M17")
+                Button:
+                    text: "Motors Off"
+                    on_press: Server.printer.commands("M18")
+
+            BoxLayout:
+                size_hint_y: 0.05
 
         GridLayout:
             cols: 2
