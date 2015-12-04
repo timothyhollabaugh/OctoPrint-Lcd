@@ -7,11 +7,11 @@ import octoprint.server as Server
 from octoprint.settings import settings
 from octoprint.printer import get_connection_options
 
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
-#GPIO.setmode(GPIO.BCM)
-#GPIO.setup(2, GPIO.OUT)
-#GPIO.setup(3, GPIO.OUT)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(2, GPIO.OUT)
+GPIO.setup(3, GPIO.OUT)
 
 class PrinterTab(BoxLayout):
 
@@ -62,8 +62,8 @@ class PrinterTab(BoxLayout):
 
     def power(self, state):
         print "setting power to " + str(state)
-        #GPIO.output(2, state)
+        GPIO.output(2, state)
 
     def outlet(self, state):
         print "setting outlet to " + str(state)
-        #GPIO.output(3, state)
+        GPIO.output(3, state)
