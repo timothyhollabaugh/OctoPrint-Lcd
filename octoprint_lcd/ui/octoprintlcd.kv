@@ -353,22 +353,23 @@
                 padding: 0, 0
 
 <PrinterTab>:
+    spacing: 10
+    #padding: 20
     BoxLayout:
         orientation: 'vertical'
-        #spacing: 10
-        #padding: 20
 
         Label:
             text: "Connection:"
             font_size: 36
-            size_hint: 1, 0.15
+            size_hint: 1, None
             text_size: self.width, None
-            size: self.texture_size[0], self.texture_size[1]
+            size: self.texture_size[0],50
             halign: 'center'
             padding: 0, 15
 
         BoxLayout:
-            size_hint_y: 0.25
+            size_hint_y: None
+            height: 100
             orientation: 'vertical'
             Label:
                 text: "Serial Port"
@@ -381,7 +382,8 @@
             Spinner:
                 id: ports
         BoxLayout:
-            size_hint_y: 0.25
+            size_hint_y: None
+            height: 100
             orientation: 'vertical'
             Label:
                 text: "Baudrate"
@@ -395,7 +397,8 @@
                 id: baudrates
 
         BoxLayout:
-            size_hint_y: 0.25
+            size_hint_y: None
+            height: 100
             orientation: 'vertical'
             Label:
                 text: "Printer Profile"
@@ -409,20 +412,20 @@
                 id: profiles
 
         BoxLayout:
-            size_hint_y: 0.1
 
         Button:
-            size_hint_y: 0.11
+            size_hint_y: None
+            height: 50
             id: connect
             text: "Connect"
     BoxLayout:
         orientation: 'vertical'
 
         BoxLayout:
-            size_hint_y: 0.63
 
         BoxLayout:
-            size_hint_y: 0.1
+            size_hint_y: None
+            height: 50
             Button:
                 text: "Printer On"
                 on_press: root.power(0)
@@ -431,16 +434,29 @@
                 on_press: root.power(1)
 
         BoxLayout:
-            size_hint_y: 0.07
+            size_hint_y: None
+            height: 10
 
         BoxLayout:
-            size_hint_y: 0.1
+            size_hint_y: None
+            height: 50
             Button:
                 text: "Outlet On"
                 on_press: root.outlet(0)
             Button:
                 text: "Outlet Off"
                 on_press: root.outlet(1)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: 50
+            Button:
+                text: "Shutdown"
+                on_press: root.shutdown()
 
 <TempKeypad>:
 
@@ -784,9 +800,6 @@
                     text: "100"
                     group: "xystep"
                     allow_no_selection: False
-
-    #TempKeypad:
-    #    id: keyboard
 
 <OctoprintLcd>:
 

@@ -2,6 +2,7 @@ from kivy.properties import ListProperty
 from kivy.uix.boxlayout import BoxLayout
 
 import time
+import os
 
 import octoprint.server as Server
 from octoprint.settings import settings
@@ -67,3 +68,7 @@ class PrinterTab(BoxLayout):
     def outlet(self, state):
         print "setting outlet to " + str(state)
         #GPIO.output(3, state)
+
+    def shutdown(self):
+        print "Shuting Down"
+        os.system("sudo shutdown -h now");
