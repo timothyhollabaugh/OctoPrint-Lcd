@@ -1,4 +1,6 @@
 from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import ObjectProperty
+from kivy.properties import StringProperty
 
 import octoprint.server as Server
 
@@ -13,25 +15,57 @@ class StatusBox(BoxLayout):
             file = ""
         self.ids.file.text = file
 
-class StatusTab(BoxLayout):
+class TemperatureLabel(BoxLayout):
+    actual = StringProperty("--")
+    target = StringProperty("--")
+    title = StringProperty("")
+    name = StringProperty("")
+
     def update(self, dt):
         temps = Server.printer.get_current_temperatures()
 
-        if Server.printer.get_current_connection()[3] != None:
-            if Server.printer.get_current_connection()[3]['heatedBed']:
-                if 'bed' in temps.keys():
-                    self.ids.bed_status.actual = str("%3.1f" % temps['bed']['actual']) if temps['bed']['actual'] > 1 else "--"
-                    self.ids.bed_status.target = str("%3.0f" % temps['bed']['target']) if temps['bed']['actual'] > 1 else "--"
-            if 'tool0' in temps.keys():
-                self.ids.tool0_status.actual = str("%3.1f" % temps['tool0']['actual']) if temps['tool0']['actual'] > 1 else "--"
-                self.ids.tool0_status.target = str("%3.0f" % temps['tool0']['target']) if temps['tool0']['actual'] > 1 else "--"
-            if 'tool1' in temps.keys():
-                self.ids.tool1_status.actual = str("%3.1f" % temps['tool1']['actual']) if temps['tool1']['actual'] > 1 else "--"
-                self.ids.tool1_status.target = str("%3.0f" % temps['tool1']['target']) if temps['tool1']['actual'] > 1 else "--"
-            if 'tool2' in temps.keys():
-                self.ids.tool2_status.actual = str("%3.1f" % temps['tool2']['actual']) if temps['tool2']['actual'] > 1 else "--"
-                self.ids.tool2_status.target = str("%3.0f" % temps['tool2']['target']) if temps['tool2']['actual'] > 1 else "--"
+        if self.name in temps.keys():
+            self.actual = str("%3.1f" % temps[self.name]['actual']) if temps[self.name]['actual'] > 1 else "--"
+            self.target = str("%3.1f" % temps[self.name]['target']) if temps[self.name]['target'] > 1 else "--"
 
+class StatusTab(BoxLayout):
+
+    tempBox = ObjectProperty(None)
+
+    profile = None
+    oldProfile = None
+
+    def update(self, dt):
+        temps = Server.printer.get_current_temperatures()
+
+        self.profile = Server.printer.get_current_connection()[3]
+
+        if self.profile != self.oldProfile:
+            self.tempBox.clear_widgets()
+            if self.profile != None:
+                if self.profile['heatedBed']:
+                    bed_widget = TemperatureLabel()
+                    bed_widget.title = "Bed:"
+                    bed_widget.name = 'bed'
+                    self.tempBox.add_widget(bed_widget)
+                if self.profile['extruder']['count'] == 1:
+                    extuder_widget = TemperatureLabel()
+                    extuder_widget.title = "Tool:"
+                    extuder_widget.name = 'tool0'
+                    self.tempBox.add_widget(extuder_widget)
+                else:
+                    for i in range(self.profile['extruder']['count']):
+                        extuder_widget = TemperatureLabel()
+                        extuder_widget.title = "Tool " + str(i) + ":"
+                        extuder_widget.name = 'tool' + str(i)
+                        self.tempBox.add_widget(extuder_widget)
+            else:
+                pass
+            self.oldProfile = self.profile
+
+        for i in self.tempBox.children:
+            if isinstance(i, TemperatureLabel):
+                i.update(dt)
 
         data = Server.printer.get_current_data()
 
