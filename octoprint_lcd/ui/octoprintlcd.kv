@@ -63,7 +63,7 @@
     Label:
         size_hint: 0.1, 1
 
-<FilamentLabel@BoxLayout>:
+<FilamentLabel>:
     length: " - - "
     volume: " - - "
     title: ""
@@ -75,7 +75,7 @@
     Label:
         text: root.title
         font_size: 24
-        size_hint: 0.4, None
+        size_hint: 0.4, 1
         text_size: self.width, None
         size: self.texture_size[0], self.texture_size[1]
         halign: 'right'
@@ -83,14 +83,14 @@
     Label:
         text: root.length + "m"
         font_size: 24
-        size_hint: 0.25, None
+        size_hint: 0.25, 1
         text_size: self.width, None
         size: self.texture_size[0], self.texture_size[1]
         halign: 'right'
     Label:
         text: root.volume + "cm" + unichr(179)
         font_size: 24
-        size_hint: 0.35, None
+        size_hint: 0.35, 1
         text_size: self.width, None
         size: self.texture_size[0], self.texture_size[1]
         halign: 'right'
@@ -99,11 +99,12 @@
 
 <StatusTab>:
     tempBox: tempBox
+    filaBox: filaBox
     BoxLayout:
         orientation: 'vertical'
         Label:
             id: status_label
-            text: 'Printing'
+            text: "Printing"
             halign: 'center'
             font_size: 48
             text_size: root.width, 60
@@ -111,44 +112,30 @@
             size_hint: 1, None
         Label:
             id: file_label
-            text: 'Everything.gcode'
+            text: "Everything.gcode"
             halign: 'center'
             font_size: 24
             text_size: root.width, 40
             size: self.texture_size
             size_hint: 1, None
         BoxLayout:
-            #size: self.width, self.height
-            #size_hint: 1, None
             padding: 10
             BoxLayout:
                 id: tempBox
                 orientation: 'vertical'
-                # TemperatureLabel:
-                #     id: bed_status
-                #     title: "Bed:"
-                # TemperatureLabel:
-                #     id: tool0_status
-                #     title: "Tool 0:"
-                # TemperatureLabel:
-                #     id: tool1_status
-                #     title: "Tool 1:"
-                # TemperatureLabel:
-                #     id: tool2_status
-                #     title: "Tool 2:"
 
             BoxLayout:
+                id: filaBox
                 orientation: 'vertical'
-                #size_hint: 0.6, 1
-                FilamentLabel:
-                    id: tool0_filament
-                    title: "Tool 0 Usage: "
-                FilamentLabel:
-                    id: tool1_filament
-                    title: "Tool 1 Usage: "
-                FilamentLabel:
-                    id: tool2_filament
-                    title: "Tool 2 Usage: "
+                # FilamentLabel:
+                #     id: tool0_filament
+                #     title: "Tool 0 Usage: "
+                # FilamentLabel:
+                #     id: tool1_filament
+                #     title: "Tool 1 Usage: "
+                # FilamentLabel:
+                #     id: tool2_filament
+                #     title: "Tool 2 Usage: "
 
         BoxLayout:
             #orientation: 'vertical'
@@ -157,15 +144,15 @@
             TimeLabel:
                 id: time_in
                 time: "12:34:54"
-                title: 'Printed'
+                title: "Printed"
             TimeLabel:
                 id: time_remaining
                 time: "10:47:32"
-                title: 'Remaining'
+                title: "Remaining"
             TimeLabel:
                 id: time_total
                 time: "22:21:12"
-                title: 'Total'
+                title: "Total"
         ProgressBar:
             id: progress
             max: 100
@@ -568,42 +555,6 @@
                 padding: 5
                 spacing: 5
                 size_hint_y: 0.4
-                # BoxLayout:
-                #     TemperatureLabel:
-                #         id: bed_status
-                #         title: "Bed:"
-                #         size_hint_x: 0.8
-                #     Button:
-                #         text: "Set"
-                #         size_hint_x: 0.2
-                #         on_press: root.showKeyboard('bed', 'Bed')
-                # BoxLayout:
-                #     TemperatureLabel:
-                #         id: tool0_status
-                #         title: "Tool 0:"
-                #         size_hint_x: 0.8
-                #     Button:
-                #         text: "Set"
-                #         size_hint_x: 0.2
-                #         on_press: root.showKeyboard('tool0', 'Tool 0')
-                # BoxLayout:
-                #     TemperatureLabel:
-                #         id: tool1_status
-                #         title: "Tool 1:"
-                #         size_hint_x: 0.8
-                #     Button:
-                #         text: "Set"
-                #         size_hint_x: 0.2
-                #         on_press: root.showKeyboard('tool1', 'Tool 1')
-                # BoxLayout:
-                #     TemperatureLabel:
-                #         id: tool2_status
-                #         title: "Tool 2:"
-                #         size_hint_x: 0.8
-                #     Button:
-                #         text: "Set"
-                #         size_hint_x: 0.2
-                #         on_press: root.showKeyboard('tool2', 'Tool 2')
 
             BoxLayout:
                 size_hint_y: 0.05
