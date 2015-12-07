@@ -48,7 +48,7 @@
     Label:
         text: root.actual + " " + unichr(176) + "C"
         font_size: 24
-        size_hint: 0.4, 1
+        size_hint: 0.35, 1
         text_size: self.width, None
         size: self.texture_size[0], self.texture_size[1]
         halign: 'right'
@@ -56,7 +56,7 @@
     Label:
         text: root.target + " " + unichr(176) + "C"
         font_size: 24
-        size_hint: 0.3, 1
+        size_hint: 0.35, 1
         text_size: self.width, None
         size: self.texture_size[0], self.texture_size[1]
         halign: 'right'
@@ -558,50 +558,52 @@
             on_release: root.remove()
 
 <ControlTab>:
+    tempBox: tempBox
     BoxLayout:
         BoxLayout:
             orientation: 'vertical'
             BoxLayout:
+                id: tempBox
                 orientation: 'vertical'
                 padding: 5
                 spacing: 5
                 size_hint_y: 0.4
-                BoxLayout:
-                    TemperatureLabel:
-                        id: bed_status
-                        title: "Bed:"
-                        size_hint_x: 0.8
-                    Button:
-                        text: "Set"
-                        size_hint_x: 0.2
-                        on_press: root.showKeyboard('bed', 'Bed')
-                BoxLayout:
-                    TemperatureLabel:
-                        id: tool0_status
-                        title: "Tool 0:"
-                        size_hint_x: 0.8
-                    Button:
-                        text: "Set"
-                        size_hint_x: 0.2
-                        on_press: root.showKeyboard('tool0', 'Tool 0')
-                BoxLayout:
-                    TemperatureLabel:
-                        id: tool1_status
-                        title: "Tool 1:"
-                        size_hint_x: 0.8
-                    Button:
-                        text: "Set"
-                        size_hint_x: 0.2
-                        on_press: root.showKeyboard('tool1', 'Tool 1')
-                BoxLayout:
-                    TemperatureLabel:
-                        id: tool2_status
-                        title: "Tool 2:"
-                        size_hint_x: 0.8
-                    Button:
-                        text: "Set"
-                        size_hint_x: 0.2
-                        on_press: root.showKeyboard('tool2', 'Tool 2')
+                # BoxLayout:
+                #     TemperatureLabel:
+                #         id: bed_status
+                #         title: "Bed:"
+                #         size_hint_x: 0.8
+                #     Button:
+                #         text: "Set"
+                #         size_hint_x: 0.2
+                #         on_press: root.showKeyboard('bed', 'Bed')
+                # BoxLayout:
+                #     TemperatureLabel:
+                #         id: tool0_status
+                #         title: "Tool 0:"
+                #         size_hint_x: 0.8
+                #     Button:
+                #         text: "Set"
+                #         size_hint_x: 0.2
+                #         on_press: root.showKeyboard('tool0', 'Tool 0')
+                # BoxLayout:
+                #     TemperatureLabel:
+                #         id: tool1_status
+                #         title: "Tool 1:"
+                #         size_hint_x: 0.8
+                #     Button:
+                #         text: "Set"
+                #         size_hint_x: 0.2
+                #         on_press: root.showKeyboard('tool1', 'Tool 1')
+                # BoxLayout:
+                #     TemperatureLabel:
+                #         id: tool2_status
+                #         title: "Tool 2:"
+                #         size_hint_x: 0.8
+                #     Button:
+                #         text: "Set"
+                #         size_hint_x: 0.2
+                #         on_press: root.showKeyboard('tool2', 'Tool 2')
 
             BoxLayout:
                 size_hint_y: 0.05

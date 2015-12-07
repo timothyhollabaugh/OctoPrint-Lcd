@@ -1,11 +1,19 @@
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import ToggleButtonBehavior
+from kivy.uix.button import Button
 from kivy.properties import ObjectProperty
+
+from .status import TemperatureLabel
 
 import octoprint.server as Server
 
 class TempKeypad(BoxLayout):
+
+    tempBox = ObjectProperty(None)
+
+    profile = None
+    oldProfile = None
 
     tempIn = ObjectProperty(None)
     tool = ""
@@ -29,23 +37,77 @@ class TempKeypad(BoxLayout):
         self.parent.remove_widget(self)
 
 class ControlTab(FloatLayout):
-    def update(self, dt):
-        temps = Server.printer.get_current_temperatures()
 
-        if Server.printer.get_current_connection()[3] != None:
-            if Server.printer.get_current_connection()[3]['heatedBed']:
-                if 'bed' in temps.keys():
-                    self.ids.bed_status.actual = str("%3.1f" % temps['bed']['actual']) if temps['bed']['actual'] > 1 else "--"
-                    self.ids.bed_status.target = str("%3.0f" % temps['bed']['target']) if temps['bed']['actual'] > 1 else "--"
-            if 'tool0' in temps.keys():
-                self.ids.tool0_status.actual = str("%3.1f" % temps['tool0']['actual']) if temps['tool0']['actual'] > 1 else "--"
-                self.ids.tool0_status.target = str("%3.0f" % temps['tool0']['target']) if temps['tool0']['actual'] > 1 else "--"
-            if 'tool1' in temps.keys():
-                self.ids.tool1_status.actual = str("%3.1f" % temps['tool1']['actual']) if temps['tool1']['actual'] > 1 else "--"
-                self.ids.tool1_status.target = str("%3.0f" % temps['tool1']['target']) if temps['tool1']['actual'] > 1 else "--"
-            if 'tool2' in temps.keys():
-                self.ids.tool2_status.actual = str("%3.1f" % temps['tool2']['actual']) if temps['tool2']['actual'] > 1 else "--"
-                self.ids.tool2_status.target = str("%3.0f" % temps['tool2']['target']) if temps['tool2']['actual'] > 1 else "--"
+    profile = None
+    oldProfile = None
+
+    def update(self, dt):
+
+        self.profile = Server.printer.get_current_connection()[3]
+
+        if self.profile != self.oldProfile:
+            self.tempBox.clear_widgets()
+            if self.profile != None:
+                if self.profile['heatedBed']:
+                    box = BoxLayout()
+
+                    label = TemperatureLabel()
+                    label.size_hint_x = 0.8
+                    label.title = "Bed:"
+                    label.name = 'bed'
+                    box.add_widget(label)
+
+                    btn = Button()
+                    btn.text = "Set"
+                    btn.size_hint_x = 0.2
+                    btn.on_press = lambda: self.showKeyboard('bed', "Bed")
+                    box.add_widget(btn)
+
+                    self.tempBox.add_widget(box)
+
+                if self.profile['extruder']['count'] == 1:
+                    box = BoxLayout()
+
+                    label = TemperatureLabel()
+                    label.size_hint_x = 0.8
+                    label.title = "Tool:"
+                    label.name = 'tool0'
+                    box.add_widget(label)
+
+                    btn = Button()
+                    btn.text = "Set"
+                    btn.size_hint_x = 0.2
+                    btn.on_press = lambda: self.showKeyboard('tool0', "Tool")
+                    box.add_widget(btn)
+
+                    self.tempBox.add_widget(box)
+                else:
+                    for i in range(self.profile['extruder']['count']):
+                        box = BoxLayout()
+
+                        label = TemperatureLabel()
+                        label.size_hint_x = 0.8
+                        label.title = "Tool " + str(i) + ":"
+                        label.name = 'tool' + str(i)
+                        box.add_widget(label)
+
+                        btn = Button()
+                        btn.text = "Set"
+                        btn.size_hint_x = 0.2
+                        btn.on_press = lambda i=i: self.showKeyboard('tool' + str(i), "Tool " + str(i) + ":")
+                        box.add_widget(btn)
+
+                        self.tempBox.add_widget(box)
+
+                        print str(i)
+            else:
+                pass
+            self.oldProfile = self.profile
+
+        for i in self.tempBox.children:
+            for j in i.children:
+                if isinstance(j, TemperatureLabel):
+                    j.update(dt)
 
     def jog(self, axis, mult):
         self.selected = None
