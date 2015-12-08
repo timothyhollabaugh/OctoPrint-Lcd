@@ -37,8 +37,7 @@ class FilamentLabel(BoxLayout):
     title = StringProperty("")
     name = StringProperty("")
 
-    def update(self, dt):
-        filament = Server.printer.get_current_data()['job']['filament']
+    def update(self, filament):
 
         if filament != None and self.name in filament.keys():
             self.length = str("%.2f" % (filament[self.name]['length']/1000))
@@ -101,7 +100,7 @@ class StatusTab(BoxLayout):
 
         for i in self.filaBox.children:
             if isinstance(i, FilamentLabel):
-                i.update(dt)
+                i.update(Server.printer.get_current_data()['job']['filament'])
 
         data = Server.printer.get_current_data()
 

@@ -127,15 +127,6 @@
             BoxLayout:
                 id: filaBox
                 orientation: 'vertical'
-                # FilamentLabel:
-                #     id: tool0_filament
-                #     title: "Tool 0 Usage: "
-                # FilamentLabel:
-                #     id: tool1_filament
-                #     title: "Tool 1 Usage: "
-                # FilamentLabel:
-                #     id: tool2_filament
-                #     title: "Tool 2 Usage: "
 
         BoxLayout:
             #orientation: 'vertical'
@@ -232,14 +223,16 @@
 <FilesTab>:
     title: "No File"
     date: ""
-    etime: "00:00:00"
-    ltime: "00:00:00"
-    tool0l: ""
-    tool1l: ""
-    tool2l: ""
-    tool0v: ""
-    tool1v: ""
-    tool2v: ""
+    # etime: "00:00:00"
+    # ltime: "00:00:00"
+    filaBox: filaBox
+    etime: etime
+    # tool0l: ""
+    # tool1l: ""
+    # tool2l: ""
+    # tool0v: ""
+    # tool1v: ""
+    # tool2v: ""
 
     BoxLayout:
         size_hint_x: 0.55
@@ -273,32 +266,21 @@
                     halign: 'right'
 
             BoxLayout:
-                size_hint_y: 0.4
+                size_hint_y: 0.5
                 padding: 10
                 TimeLabel:
+                    id: etime
                     size_hint_y: 0.4
-                    time: root.etime
+                    time: "-- : -- : --"
                     title: 'Estimated'
 
             BoxLayout:
                 size_hint_y: 0.05
 
             BoxLayout:
+                id: filaBox
+                ize_hint_y: 0.4
                 orientation: 'vertical'
-                padding: 10
-                size_hint_y: 0.5
-                FilamentLabel:
-                    volume: root.tool0l
-                    length: root.tool0v
-                    title: "Tool 0 Usage: "
-                FilamentLabel:
-                    volume: root.tool1l
-                    length: root.tool1v
-                    title: "Tool 1 Usage: "
-                FilamentLabel:
-                    volume: root.tool2l
-                    length: root.tool2v
-                    title: "Tool 2 Usage: "
 
             BoxLayout:
                 size_hint_y: 0.25

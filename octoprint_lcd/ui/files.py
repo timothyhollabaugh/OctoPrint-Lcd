@@ -9,6 +9,8 @@ from kivy.uix.behaviors import ToggleButtonBehavior
 
 from kivy.graphics import *
 
+from .status import FilamentLabel
+
 import time
 
 import octoprint.server as Server
@@ -38,18 +40,23 @@ class FileView(ToggleButtonBehavior, BoxLayout):
             Line(points=[self.pos[0]+15, self.pos[1], self.pos[0]+self.width-15, self.pos[1]])
 
 class FilesTab(BoxLayout):
-    file_list=ObjectProperty(None)
+    file_list = ObjectProperty(None)
     title = StringProperty("")
     date = StringProperty("")
-    etime = StringProperty("")
-    ltime = StringProperty("")
-    tool0l = StringProperty("")
-    tool1l = StringProperty("")
-    tool2l = StringProperty("")
-    tool0v = StringProperty("")
-    tool1v = StringProperty("")
-    tool2v = StringProperty("")
+    # etime = StringProperty("")
+    # ltime = StringProperty("")
+    # tool0l = StringProperty("")
+    # tool1l = StringProperty("")
+    # tool2l = StringProperty("")
+    # tool0v = StringProperty("")
+    # tool1v = StringProperty("")
+    # tool2v = StringProperty("")
+
+    etime = ObjectProperty(None)
+    filaBox = ObjectProperty(None)
+
     selected = None
+    oldSelected = None
     first = True
     oldFiles = {}
     files = {}
@@ -73,7 +80,7 @@ class FilesTab(BoxLayout):
                 date = self.files['local'][i]['date']
 
                 if len(children) > 0:
-                    if date <= int(children[0].date) :
+                    if date <= int(children[0].date):
                         self.ids.file_list.add_widget(btn, index=0)
                     elif date > int(children[len(children)-1].date):
                         self.ids.file_list.add_widget(btn, index=len(children))
@@ -101,13 +108,15 @@ class FilesTab(BoxLayout):
             #print "None"
             self.title = "No File"
             self.date = ""
-            self.etime = "--:--:--"
-            self.tool0l = " - - "
-            self.tool0v = " - - "
-            self.tool1l = " - - "
-            self.tool1v = " - - "
-            self.tool2l = " - - "
-            self.tool2v = " - - "
+            self.etime.title = ""
+            self.etime.time = ""
+            # self.etime = "--:--:--"
+            # self.tool0l = " - - "
+            # self.tool0v = " - - "
+            # self.tool1l = " - - "
+            # self.tool1v = " - - "
+            # self.tool2l = " - - "
+            # self.tool2v = " - - "
             self.ids.print_button.disabled = True
             self.ids.load_button.disabled = True
             self.ids.delete_button.disabled = True
@@ -127,28 +136,49 @@ class FilesTab(BoxLayout):
                 else:
                     h, m, s = 0, 0, 0
 
-                self.etime = str("%02d:%02d:%02d" % (h, m, s))
+                self.etime.title = "Estimated"
+                self.etime.time = str("%02d:%02d:%02d" % (h, m, s))
                 filament = file['analysis']['filament']
 
-                if filament != None:
-                    if 'tool0' in filament.keys():
-                        self.tool0l = str("%.2f" % (filament['tool0']['length']/1000))
-                        self.tool0v = str("%3.2f" % filament['tool0']['volume'])
+                if(self.selected != self.oldSelected):
+                    self.filaBox.clear_widgets()
+                    if len(filament) == 1 and Server.printer.get_current_connection()[3]['extruder']['count'] == 1:
+                        fila_widget = FilamentLabel()
+                        fila_widget.title = "Usage:"
+                        fila_widget.name = 'tool0'
+                        self.filaBox.add_widget(fila_widget)
                     else:
-                        self.tool0l = " - - "
-                        self.tool0v = " - - "
-                    if 'tool1' in filament.keys():
-                        self.tool1l = str("%.2f" % (filament['tool0']['length']/1000))
-                        self.tool1v = str("%3.2f" % filament['tool0']['volume'])
-                    else:
-                        self.tool1l = " - - "
-                        self.tool1v = " - - "
-                    if 'tool2' in filament.keys():
-                        self.tool2l = str("%.2f" % (filament['tool0']['length']/1000))
-                        self.tool2v = str("%3.2f" % filament['tool0']['volume'])
-                    else:
-                        self.tool2l = " - - "
-                        self.tool2v = " - - "
+                        for i in range(len(filament)):
+                            fila_widget = FilamentLabel()
+                            fila_widget.title = "Tool " + str(i) + " Usage:"
+                            fila_widget.name = 'tool' + str(i)
+                            self.filaBox.add_widget(fila_widget)
+
+                    self.oldSelected = self.selected
+
+                for i in self.filaBox.children:
+                    if isinstance(i, FilamentLabel):
+                        i.update(filament)
+
+                # if filament != None:
+                #     if 'tool0' in filament.keys():
+                #         self.tool0l = str("%.2f" % (filament['tool0']['length']/1000))
+                #         self.tool0v = str("%3.2f" % filament['tool0']['volume'])
+                #     else:
+                #         self.tool0l = " - - "
+                #         self.tool0v = " - - "
+                #     if 'tool1' in filament.keys():
+                #         self.tool1l = str("%.2f" % (filament['tool0']['length']/1000))
+                #         self.tool1v = str("%3.2f" % filament['tool0']['volume'])
+                #     else:
+                #         self.tool1l = " - - "
+                #         self.tool1v = " - - "
+                #     if 'tool2' in filament.keys():
+                #         self.tool2l = str("%.2f" % (filament['tool0']['length']/1000))
+                #         self.tool2v = str("%3.2f" % filament['tool0']['volume'])
+                #     else:
+                #         self.tool2l = " - - "
+                #         self.tool2v = " - - "
             else:
                 self.etime = "--:--:--"
                 self.tool0l = " - - "
