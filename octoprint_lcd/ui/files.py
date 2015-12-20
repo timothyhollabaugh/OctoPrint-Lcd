@@ -1,5 +1,6 @@
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
+from kivy.properties import NumericProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
@@ -17,12 +18,12 @@ import octoprint.server as Server
 
 class FileView(ToggleButtonBehavior, BoxLayout):
     title=StringProperty(None)
-    date=StringProperty(None)
-    def __init__(self, file, **kwargs):
+    date=NumericProperty(0.0)
+    def __init__(self, group, title, date, **kwargs):
         super(FileView, self).__init__(**kwargs)
-        self.group = 'files'
-        self.title = file['name']
-        self.date = str(file['date'])
+        self.group = group
+        self.title = title
+        self.date = date
         self.bind(state=self.changeState)
         #print file
 
@@ -40,17 +41,8 @@ class FileView(ToggleButtonBehavior, BoxLayout):
             Line(points=[self.pos[0]+15, self.pos[1], self.pos[0]+self.width-15, self.pos[1]])
 
 class FilesTab(BoxLayout):
-    file_list = ObjectProperty(None)
     title = StringProperty("")
-    date = StringProperty("")
-    # etime = StringProperty("")
-    # ltime = StringProperty("")
-    # tool0l = StringProperty("")
-    # tool1l = StringProperty("")
-    # tool2l = StringProperty("")
-    # tool0v = StringProperty("")
-    # tool1v = StringProperty("")
-    # tool2v = StringProperty("")
+    date = NumericProperty(0.0)
 
     etime = ObjectProperty(None)
     filaBox = ObjectProperty(None)
@@ -75,9 +67,9 @@ class FilesTab(BoxLayout):
             self.ids.file_list.clear_widgets()
             #print self.files
             for i in self.files['local']:
-                btn = FileView(self.files['local'][i], size_hint_y=None, height=60)
-                children = self.ids.file_list.children
                 date = self.files['local'][i]['date']
+                btn = FileView('files', self.files['local'][i]['name'], date, size_hint_y=None, height=60)
+                children = self.ids.file_list.children
 
                 if len(children) > 0:
                     if date <= int(children[0].date):
@@ -107,16 +99,9 @@ class FilesTab(BoxLayout):
         if self.selected == None or not self.selected.title in self.files['local'].keys():
             #print "None"
             self.title = "No File"
-            self.date = ""
+            self.date = 0
             self.etime.title = ""
             self.etime.time = ""
-            # self.etime = "--:--:--"
-            # self.tool0l = " - - "
-            # self.tool0v = " - - "
-            # self.tool1l = " - - "
-            # self.tool1v = " - - "
-            # self.tool2l = " - - "
-            # self.tool2v = " - - "
             self.ids.print_button.disabled = True
             self.ids.load_button.disabled = True
             self.ids.delete_button.disabled = True
@@ -125,7 +110,7 @@ class FilesTab(BoxLayout):
             file = self.files['local'][self.selected.title]
             #print file
             self.title = f.title
-            self.date = str(f.date)
+            self.date = f.date
 
             if('analysis' in file.keys()):
                 etime = file['analysis']['estimatedPrintTime']
@@ -159,34 +144,15 @@ class FilesTab(BoxLayout):
                 for i in self.filaBox.children:
                     if isinstance(i, FilamentLabel):
                         i.update(filament)
-
-                # if filament != None:
-                #     if 'tool0' in filament.keys():
-                #         self.tool0l = str("%.2f" % (filament['tool0']['length']/1000))
-                #         self.tool0v = str("%3.2f" % filament['tool0']['volume'])
-                #     else:
-                #         self.tool0l = " - - "
-                #         self.tool0v = " - - "
-                #     if 'tool1' in filament.keys():
-                #         self.tool1l = str("%.2f" % (filament['tool0']['length']/1000))
-                #         self.tool1v = str("%3.2f" % filament['tool0']['volume'])
-                #     else:
-                #         self.tool1l = " - - "
-                #         self.tool1v = " - - "
-                #     if 'tool2' in filament.keys():
-                #         self.tool2l = str("%.2f" % (filament['tool0']['length']/1000))
-                #         self.tool2v = str("%3.2f" % filament['tool0']['volume'])
-                #     else:
-                #         self.tool2l = " - - "
-                #         self.tool2v = " - - "
             else:
-                self.etime = "--:--:--"
-                self.tool0l = " - - "
-                self.tool0v = " - - "
-                self.tool1l = " - - "
-                self.tool1v = " - - "
-                self.tool2l = " - - "
-                self.tool2v = " - - "
+                pass
+                #self.etime = "--:--:--"
+                #self.tool0l = " - - "
+                #self.tool0v = " - - "
+                #self.tool1l = " - - "
+                #self.tool1v = " - - "
+                #self.tool2l = " - - "
+                #self.tool2v = " - - "
 
             if Server.printer.is_printing() or Server.printer.is_closed_or_error():
                 self.ids.print_button.disabled = True

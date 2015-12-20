@@ -3,21 +3,26 @@ def start():
     kivy.require('1.9.0') # replace with your current kivy version !
 
     from kivy.app import App
-    from kivy.lang import Builder
     from kivy.clock import Clock
     from kivy.properties import StringProperty
+    from kivy.properties import ObjectProperty
     from kivy.uix.boxlayout import BoxLayout
     from kivy.uix.tabbedpanel import TabbedPanel
     from kivy.uix.floatlayout import FloatLayout
+    from kivy.uix.tabbedpanel import TabbedPanelItem
 
     from kivy.config import Config
 
     import octoprint.server as Server
 
+    import threading
+
     from .status import StatusTab
     from .control import ControlTab
     from .files import FilesTab
     from .printer import PrinterTab
+    from .usb import UsbTab
+    from .usb import start_listening
 
     Config.set('graphics', 'height', '480')
     Config.set('graphics', 'width', '800')
@@ -30,6 +35,10 @@ def start():
             super(OctoprintLcd, self).__init__()
             Clock.schedule_interval(self.update, .1)
 
+            # Start the usb listener
+            thread=threading.Thread(target=start_listening, args=(self,))
+            thread.daemon=True              # This makes sure that CTRL+C works
+            thread.start()
 
         def update(self, dt):
             pass
@@ -38,6 +47,16 @@ def start():
             self.ids.control_tab.update(dt)
             self.ids.printer_tab.update(dt)
             self.ids.files_tab.update(dt)
+
+        def addUsb(self, usb):
+            usb.text = "USB"
+            self.ids.tabbedpanel.add_widget(usb)
+
+        def removeUsb(self, usb):
+            self.ids.tabbedpanel.remove_widget(usb)
+
+        def switchDefault(self):
+            self.ids.tabbedpanel.switch_to(self.ids.tabbedpanel.default_tab)
 
     class OctoprintLcdApp(App):
 
