@@ -18,9 +18,6 @@ class LcdPlugin(octoprint.plugin.StartupPlugin):
         thread.start_new_thread(ui.start, ())
         self._logger.info("Starting UI")
 
-#    def on_after_startup(self):
-#        self._logger.info("Activating UI")
-
 __plugin_name__ = "Lcd Plugin"
 
 def __plugin_load__():

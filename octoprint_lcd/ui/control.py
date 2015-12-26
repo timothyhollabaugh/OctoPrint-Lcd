@@ -8,8 +8,6 @@ from .status import TemperatureLabel
 
 from .. import conf
 
-#import octoprint.server as Server
-
 class TempKeypad(BoxLayout):
 
     tempBox = ObjectProperty(None)
@@ -33,7 +31,7 @@ class TempKeypad(BoxLayout):
                 return False
 
     def remove(self):
-        print self.tool
+
         if self.tempIn.text != "":
             conf.plugin._printer.set_temperature(self.tool, int(self.tempIn.text))
         self.parent.remove_widget(self)
@@ -101,7 +99,7 @@ class ControlTab(FloatLayout):
 
                         self.tempBox.add_widget(box)
 
-                        print str(i)
+                        
             else:
                 pass
             self.oldProfile = self.profile
@@ -113,14 +111,12 @@ class ControlTab(FloatLayout):
 
     def jog(self, axis, mult):
         self.selected = None
-        #print "Jogging", axis
         if 'x' in axis or 'y' in axis:
             step = 0
             for f in ToggleButtonBehavior.get_widgets('xystep'):
                 if f.state == 'down':
                     step = float(f.text)
                     break
-            #print step*mult
             conf.plugin._printer.jog(axis, step*mult)
 
         if 'z' in axis:
@@ -129,7 +125,6 @@ class ControlTab(FloatLayout):
                 if f.state == 'down':
                     step = float(f.text)
                     break
-            #print step*mult
             conf.plugin._printer.jog(axis, step*mult)
 
         if 'e' in axis:
@@ -138,7 +133,6 @@ class ControlTab(FloatLayout):
                 if f.state == 'down':
                     step = float(f.text)
                     break
-            #print step*mult
             conf.plugin._printer.jog(axis, step*mult)
 
     def showKeyboard(self, tool, title):

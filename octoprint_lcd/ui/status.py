@@ -2,7 +2,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
 
-#import octoprint.server as Server
 from .. import conf
 
 class StatusBox(BoxLayout):
@@ -56,7 +55,6 @@ class StatusTab(BoxLayout):
     oldProfile = None
 
     def update(self, dt):
-        #temps = conf.plugin._printer.get_current_temperatures()
 
         self.profile = conf.plugin._printer.get_current_connection()[3]
 
@@ -104,28 +102,6 @@ class StatusTab(BoxLayout):
                 i.update(conf.plugin._printer.get_current_data()['job']['filament'])
 
         data = conf.plugin._printer.get_current_data()
-
-        # filament = data['job']['filament']
-        #
-        # changed = []
-        #
-        # if filament != None:
-        #     if 'tool0' in filament.keys() or 'tool1' in filament.keys() or 'tool2' in filament.keys():
-        #         for i in filament:
-        #             #print i
-        #             self.ids[i + '_filament'].length = str("%.2f" % (filament[i]['length']/1000))
-        #             self.ids[i + '_filament'].volume = str("%3.2f" % filament[i]['volume'])
-        #             changed.append(i)
-        #
-        # if not 'tool0' in changed:
-        #     self.ids['tool0_filament'].length = " - - "
-        #     self.ids['tool0_filament'].volume = " - - "
-        # if not 'tool1' in changed:
-        #     self.ids['tool1_filament'].length = " - - "
-        #     self.ids['tool1_filament'].volume = " - - "
-        # if not 'tool2' in changed:
-        #     self.ids['tool2_filament'].length = " - - "
-        #     self.ids['tool2_filament'].volume = " - - "
 
         self.ids.status_label.text = data['state']['text']
 

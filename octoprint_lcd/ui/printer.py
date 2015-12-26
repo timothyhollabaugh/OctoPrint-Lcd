@@ -5,7 +5,6 @@ import time
 import os
 
 import octoprint.server as Server
-#from octoprint.settings import settings
 from octoprint.printer import get_connection_options
 
 from .. import conf
@@ -42,7 +41,6 @@ class PrinterTab(BoxLayout):
         self.connection = conf.plugin._printer.get_current_connection()
 
         if self.connection != self.oldConnection:
-            #print self.connection
 
             if self.connection[0] != 'Closed':
                 self.ids.ports.disabled = True
@@ -64,13 +62,13 @@ class PrinterTab(BoxLayout):
             self.oldConnection = self.connection
 
     def power(self, state):
-        print "setting power to " + str(state)
+        conf.plugin._logger.info("setting power to " + str(state))
         #GPIO.output(2, state)
 
     def outlet(self, state):
-        print "setting outlet to " + str(state)
+        conf.plugin._logger.info("setting outlet to " + str(state))
         #GPIO.output(3, state)
 
     def shutdown(self):
-        print "Shuting Down"
+        conf.plugin._logger.info()"Shuting Down")
         os.system("sudo shutdown -h now");

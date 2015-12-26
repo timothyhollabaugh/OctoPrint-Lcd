@@ -20,7 +20,7 @@ from .files import FileView
 import time, os
 
 from .. import conf
-#import octoprint.server as Server
+
 from octoprint.filemanager.util import DiskFileWrapper
 
 class UsbTab(TabbedPanelItem):
@@ -47,13 +47,12 @@ class UsbTab(TabbedPanelItem):
         super(UsbTab, self).__init__(**kwargs)
         self.iface = iface
         self.tabbedpanel = tabbedpanel
-        #self.iface.Unmount({})
         self.path = self.iface.Mount({})
         self.cpath = self.path
 
         Clock.schedule_interval(self.update, .1)
 
-        print os.listdir(self.path)
+
 
     def update(self, dt):
         if self.first:
@@ -61,14 +60,10 @@ class UsbTab(TabbedPanelItem):
             self.first = False
 
         if os.path.exists(self.cpath) and os.access(self.cpath, os.R_OK):
-            #print self.cpath
             self.files = os.listdir(self.cpath)
-
-            #print self.files
 
             if self.files != self.oldFiles:
                 self.ids.file_list.clear_widgets()
-                #print self.files
                 for i in self.files:
                     date = os.path.getatime(os.path.join(self.cpath, i))
                     btn = FileView('usb', i, date, size_hint_y=None, height=60)
@@ -99,7 +94,6 @@ class UsbTab(TabbedPanelItem):
 
             if self.selected != None:
                 cfile = os.path.join(self.cpath, self.selected.title)
-                #print cfile
                 if os.path.isdir(cfile):
                     self.cpath = cfile
                     self.selected.state = 'normal'
@@ -141,7 +135,7 @@ def start_listening(tabbedpanel):
     # Function which will run when signal is received
     def added(*args):
         if 'org.freedesktop.UDisks2.Filesystem' in args[1]:
-            print args[0]
+            
             obj = bus.get_object('org.freedesktop.UDisks2', args[0])
             iface = dbus.Interface(obj, 'org.freedesktop.UDisks2.Filesystem')
             usb = UsbTab(iface, tabbedpanel)

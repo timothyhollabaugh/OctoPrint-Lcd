@@ -16,8 +16,6 @@ import time
 
 from .. import conf
 
-#import octoprint.server as Server
-
 class FileView(ToggleButtonBehavior, BoxLayout):
     title=StringProperty(None)
     date=NumericProperty(0.0)
@@ -27,7 +25,6 @@ class FileView(ToggleButtonBehavior, BoxLayout):
         self.title = title
         self.date = date
         self.bind(state=self.changeState)
-        #print file
 
     def changeState(self, button, state):
         if state == 'normal':
@@ -61,8 +58,6 @@ class FilesTab(BoxLayout):
 
     def update(self, dt):
 
-        #print settings.plugin.basefolder
-
         self.files = conf.plugin._file_manager.list_files()
         if self.first:
             self.ids.file_list.bind(minimum_height=self.ids.file_list.setter('height'))
@@ -70,7 +65,6 @@ class FilesTab(BoxLayout):
 
         if self.files != self.oldFiles:
             self.ids.file_list.clear_widgets()
-            #print self.files
             for i in self.files['local']:
                 date = self.files['local'][i]['date']
                 btn = FileView('files', self.files['local'][i]['name'], date, size_hint_y=None, height=60)
@@ -89,9 +83,6 @@ class FilesTab(BoxLayout):
                                 break
                 else:
                     self.ids.file_list.add_widget(btn)
-                    #for c in children:
-                    #    print c.date
-                    #time.sleep(1)
 
             self.oldFiles = self.files
 
@@ -102,7 +93,6 @@ class FilesTab(BoxLayout):
                 break
 
         if self.selected == None or not self.selected.title in self.files['local'].keys():
-            #print "None"
             self.title = "No File"
             self.date = 0
             self.etime.title = ""
@@ -111,9 +101,7 @@ class FilesTab(BoxLayout):
             self.ids.load_button.disabled = True
             self.ids.delete_button.disabled = True
         else:
-            #print self.selected.title
             file = self.files['local'][self.selected.title]
-            #print file
             self.title = f.title
             self.date = f.date
 
@@ -149,15 +137,6 @@ class FilesTab(BoxLayout):
                 for i in self.filaBox.children:
                     if isinstance(i, FilamentLabel):
                         i.update(filament)
-            else:
-                pass
-                #self.etime = "--:--:--"
-                #self.tool0l = " - - "
-                #self.tool0v = " - - "
-                #self.tool1l = " - - "
-                #self.tool1v = " - - "
-                #self.tool2l = " - - "
-                #self.tool2v = " - - "
 
             if conf.plugin._printer.is_printing() or conf.plugin._printer.is_closed_or_error():
                 self.ids.print_button.disabled = True
