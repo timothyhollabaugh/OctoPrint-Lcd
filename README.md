@@ -33,13 +33,16 @@ Features
   - Shows files in date order, newest at the top
   - Shows date uploaded, estimated time, and filament usage
   - Allows printing, selecting, or deleting a file
+ - Status information always present in top right of screen:
+  - Current state
+  - Loaded file
  - Adjusts displayed information to match printer profile:
   - Number of extruders
   - Heated Bed temperatures
 
 Experimental Features
 ===
-**Theses features may or may not work depending on state of completion, your system, and other factors**
+**These features may or may not work depending on state of completion, your system, and other factors**
 
  - USB drive hotplug file transfer
   - Allows files on a USB drive to be transfered to Octoprint for printing
