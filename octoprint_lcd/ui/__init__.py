@@ -1,3 +1,4 @@
+
 def start():
     import kivy
     kivy.require('1.9.0') # replace with your current kivy version !
@@ -23,6 +24,7 @@ def start():
     from .printer import PrinterTab
     from .usb import UsbTab
     from .usb import start_listening
+    from .. import conf
 
     Config.set('graphics', 'height', '480')
     Config.set('graphics', 'width', '800')
@@ -31,8 +33,13 @@ def start():
 
     class OctoprintLcd(FloatLayout):
 
+        conf  = ObjectProperty(None)
+
         def __init__(self):
             super(OctoprintLcd, self).__init__()
+
+            self.conf = conf
+
             Clock.schedule_interval(self.update, .1)
 
             # Start the usb listener
@@ -41,7 +48,7 @@ def start():
             thread.start()
 
         def update(self, dt):
-            pass
+            self.conf = conf
             self.ids.status_tab.update(dt)
             self.ids.status_box.update(dt)
             self.ids.control_tab.update(dt)

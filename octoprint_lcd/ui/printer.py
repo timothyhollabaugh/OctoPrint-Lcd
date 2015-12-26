@@ -5,8 +5,10 @@ import time
 import os
 
 import octoprint.server as Server
-from octoprint.settings import settings
+#from octoprint.settings import settings
 from octoprint.printer import get_connection_options
+
+from .. import conf
 
 #import RPi.GPIO as GPIO
 
@@ -27,17 +29,17 @@ class PrinterTab(BoxLayout):
         self.ids.ports.values = connections['ports']
         self.ids.baudrates.values = map(str, connections['baudrates'])
         profiles = []
-        for i in Server.printerProfileManager.get_all():
-            profiles.append(Server.printerProfileManager.get_all()[i]['name'])
+        for i in conf.plugin._printer_profile_manager.get_all():
+            profiles.append(conf.plugin._printer_profile_manager.get_all()[i]['name'])
         self.ids.profiles.values = profiles
 
         if self.first:
             self.ids.ports.text = connections['portPreference']
             self.ids.baudrates.text = str(connections['baudratePreference'])
-            self.ids.profiles.text = Server.printerProfileManager.get_all()['_default']['name']
+            self.ids.profiles.text = conf.plugin._printer_profile_manager.get_all()['_default']['name']
             self.first = False
 
-        self.connection = Server.printer.get_current_connection()
+        self.connection = conf.plugin._printer.get_current_connection()
 
         if self.connection != self.oldConnection:
             #print self.connection
@@ -47,7 +49,7 @@ class PrinterTab(BoxLayout):
                 self.ids.baudrates.disabled = True
                 self.ids.profiles.disabled = True
                 self.ids.connect.text = "Disconnect"
-                self.ids.connect.on_press = Server.printer.disconnect
+                self.ids.connect.on_press = conf.plugin._printer.disconnect
 
                 self.ids.ports.text = self.connection[1]
                 self.ids.baudrates.text = str(self.connection[2])
@@ -57,7 +59,7 @@ class PrinterTab(BoxLayout):
                 self.ids.baudrates.disabled = False
                 self.ids.profiles.disabled = False
                 self.ids.connect.text = "Connect"
-                self.ids.connect.on_press = lambda: Server.printer.connect(self.ids.ports.text, self.ids.baudrates.text, self.ids.profiles.text)
+                self.ids.connect.on_press = lambda: conf.plugin._printer.connect(self.ids.ports.text, self.ids.baudrates.text, self.ids.profiles.text)
 
             self.oldConnection = self.connection
 

@@ -19,7 +19,8 @@ from .files import FileView
 
 import time, os
 
-import octoprint.server as Server
+from .. import conf
+#import octoprint.server as Server
 from octoprint.filemanager.util import DiskFileWrapper
 
 class UsbTab(TabbedPanelItem):
@@ -130,7 +131,7 @@ class UsbTab(TabbedPanelItem):
             self.selected.state = 'normal'
 
     def add(self):
-        Server.fileManager.add_file('local', self.selected.title, DiskFileWrapper(self.selected.title, os.path.join(self.cpath, self.selected.title), False), allow_overwrite=True)
+        conf.plugin._file_managerfileManager.add_file('local', self.selected.title, DiskFileWrapper(self.selected.title, os.path.join(self.cpath, self.selected.title), False), allow_overwrite=True)
 
 def start_listening(tabbedpanel):
     DBusGMainLoop(set_as_default=True)

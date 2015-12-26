@@ -2,11 +2,12 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
 
-import octoprint.server as Server
+#import octoprint.server as Server
+from .. import conf
 
 class StatusBox(BoxLayout):
     def update(self, dt):
-        data = Server.printer.get_current_data()
+        data = conf.plugin._printer.get_current_data()
 
         self.ids.status.text = data['state']['text']
 
@@ -22,7 +23,7 @@ class TemperatureLabel(BoxLayout):
     name = StringProperty("")
 
     def update(self, dt):
-        temps = Server.printer.get_current_temperatures()
+        temps = conf.plugin._printer.get_current_temperatures()
 
         if self.name in temps.keys():
             self.actual = str("%3.1f" % temps[self.name]['actual']) if temps[self.name]['actual'] > 1 else "--"
@@ -55,9 +56,9 @@ class StatusTab(BoxLayout):
     oldProfile = None
 
     def update(self, dt):
-        #temps = Server.printer.get_current_temperatures()
+        #temps = conf.plugin._printer.get_current_temperatures()
 
-        self.profile = Server.printer.get_current_connection()[3]
+        self.profile = conf.plugin._printer.get_current_connection()[3]
 
         if self.profile != self.oldProfile:
             self.tempBox.clear_widgets()
@@ -100,9 +101,9 @@ class StatusTab(BoxLayout):
 
         for i in self.filaBox.children:
             if isinstance(i, FilamentLabel):
-                i.update(Server.printer.get_current_data()['job']['filament'])
+                i.update(conf.plugin._printer.get_current_data()['job']['filament'])
 
-        data = Server.printer.get_current_data()
+        data = conf.plugin._printer.get_current_data()
 
         # filament = data['job']['filament']
         #

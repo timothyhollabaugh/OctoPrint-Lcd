@@ -6,7 +6,9 @@ from kivy.properties import ObjectProperty
 
 from .status import TemperatureLabel
 
-import octoprint.server as Server
+from .. import conf
+
+#import octoprint.server as Server
 
 class TempKeypad(BoxLayout):
 
@@ -33,7 +35,7 @@ class TempKeypad(BoxLayout):
     def remove(self):
         print self.tool
         if self.tempIn.text != "":
-            Server.printer.set_temperature(self.tool, int(self.tempIn.text))
+            conf.plugin._printer.set_temperature(self.tool, int(self.tempIn.text))
         self.parent.remove_widget(self)
 
 class ControlTab(FloatLayout):
@@ -43,7 +45,7 @@ class ControlTab(FloatLayout):
 
     def update(self, dt):
 
-        self.profile = Server.printer.get_current_connection()[3]
+        self.profile = conf.plugin._printer.get_current_connection()[3]
 
         if self.profile != self.oldProfile:
             self.tempBox.clear_widgets()
@@ -119,7 +121,7 @@ class ControlTab(FloatLayout):
                     step = float(f.text)
                     break
             #print step*mult
-            Server.printer.jog(axis, step*mult)
+            conf.plugin._printer.jog(axis, step*mult)
 
         if 'z' in axis:
             step = 0
@@ -128,7 +130,7 @@ class ControlTab(FloatLayout):
                     step = float(f.text)
                     break
             #print step*mult
-            Server.printer.jog(axis, step*mult)
+            conf.plugin._printer.jog(axis, step*mult)
 
         if 'e' in axis:
             step = 0
@@ -137,7 +139,7 @@ class ControlTab(FloatLayout):
                     step = float(f.text)
                     break
             #print step*mult
-            Server.printer.jog(axis, step*mult)
+            conf.plugin._printer.jog(axis, step*mult)
 
     def showKeyboard(self, tool, title):
         keypad = TempKeypad()

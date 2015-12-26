@@ -8,11 +8,13 @@ import octoprint.server as Server
 import os
 import thread
 
-from .ui import *
+from . import ui
+from . import conf
 
 class LcdPlugin(octoprint.plugin.StartupPlugin):
 
     def on_after_startup(self):
+        conf.plugin = self
         thread.start_new_thread(ui.start, ())
         self._logger.info("Starting UI")
 

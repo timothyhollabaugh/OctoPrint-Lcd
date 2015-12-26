@@ -14,7 +14,9 @@ from .status import FilamentLabel
 
 import time
 
-import octoprint.server as Server
+from .. import conf
+
+#import octoprint.server as Server
 
 class FileView(ToggleButtonBehavior, BoxLayout):
     title=StringProperty(None)
@@ -55,10 +57,13 @@ class FilesTab(BoxLayout):
 
     def __init__(self, **kwargs):
         super(FilesTab, self).__init__(**kwargs)
-        self.files = Server.fileManager.list_files()
+        self.files = conf.plugin._file_manager.list_files()
 
     def update(self, dt):
-        self.files = Server.fileManager.list_files()
+
+        #print settings.plugin.basefolder
+
+        self.files = conf.plugin._file_manager.list_files()
         if self.first:
             self.ids.file_list.bind(minimum_height=self.ids.file_list.setter('height'))
             self.first = False
@@ -127,7 +132,7 @@ class FilesTab(BoxLayout):
 
                 if(self.selected != self.oldSelected):
                     self.filaBox.clear_widgets()
-                    if len(filament) == 1 and Server.printer.get_current_connection()[3]['extruder']['count'] == 1:
+                    if len(filament) == 1 and conf.plugin._printer.get_current_connection()[3]['extruder']['count'] == 1:
                         fila_widget = FilamentLabel()
                         fila_widget.title = "Usage:"
                         fila_widget.name = 'tool0'
@@ -154,12 +159,12 @@ class FilesTab(BoxLayout):
                 #self.tool2l = " - - "
                 #self.tool2v = " - - "
 
-            if Server.printer.is_printing() or Server.printer.is_closed_or_error():
+            if conf.plugin._printer.is_printing() or conf.plugin._printer.is_closed_or_error():
                 self.ids.print_button.disabled = True
             else:
                 self.ids.print_button.disabled = False
 
-            if Server.printer.get_current_job()['file']['name'] == f.title or Server.printer.is_printing() or Server.printer.is_closed_or_error():
+            if conf.plugin._printer.get_current_job()['file']['name'] == f.title or conf.plugin._printer.is_printing() or conf.plugin._printer.is_closed_or_error():
                 self.ids.load_button.disabled = True
             else:
                 self.ids.load_button.disabled = False

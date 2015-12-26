@@ -1,6 +1,6 @@
 #: kivy 1.9.0
 
-#:import Server octoprint.server
+##:import conf octoprint_lcd.conf
 #:import datetime datetime
 
 <TimeLabel@BoxLayout>:
@@ -98,6 +98,7 @@
         size_hint: 0, 1
 
 <StatusTab>:
+    conf: None
     tempBox: tempBox
     filaBox: filaBox
     BoxLayout:
@@ -159,15 +160,15 @@
             Button:
                 text: "Print"
                 id: print_button
-                on_press: Server.printer.start_print()
+                on_press: root.conf.plugin._printer.start_print()
             Button:
                 text: "Pause"
                 id: pause_button
-                on_press: Server.printer.toggle_pause_print()
+                on_press: root.conf.plugin._printer.toggle_pause_print()
             Button:
                 text: "Cancel"
                 id: cancel_button
-                on_press: Server.printer.cancel_print()
+                on_press: root.conf.plugin._printer.cancel_print()
                 background_color: 2, .5, .5, 1
 
 <StatusBox>:
@@ -221,18 +222,11 @@
             halign: 'right'
 
 <FilesTab>:
+    conf: None
     title: "No File"
     date: 0.0
-    # etime: "00:00:00"
-    # ltime: "00:00:00"
     filaBox: filaBox
     etime: etime
-    # tool0l: ""
-    # tool1l: ""
-    # tool2l: ""
-    # tool0v: ""
-    # tool1v: ""
-    # tool2v: ""
 
     BoxLayout:
         size_hint_x: 0.55
@@ -293,15 +287,15 @@
                 Button:
                     text: "Print"
                     id: print_button
-                    on_press: Server.printer.select_file(Server.fileManager.path_on_disk('local', root.title), False, printAfterSelect=True)
+                    on_press: root.conf.plugin._printer.select_file(root.conf.plugin._file_manager.path_on_disk('local', root.title), False, printAfterSelect=True)
                 Button:
                     text: "Load"
                     id: load_button
-                    on_press: Server.printer.select_file(Server.fileManager.path_on_disk('local', root.title), False)
+                    on_press: root.conf.plugin._printer.select_file(root.conf.plugin._file_manager.path_on_disk('local', root.title), False)
                 Button:
                     text: "Delete"
                     id: delete_button
-                    on_press: Server.fileManager.remove_file('local', root.title)
+                    on_press: root.conf.plugin._file_manager.remove_file('local', root.title)
                     background_color: 2, .5, .5, 1
 
     BoxLayout:
@@ -325,6 +319,7 @@
                 padding: 0, 0
 
 <UsbTab>:
+    conf: None
     title: "No File"
     date: 0.0
     dpath: ""
@@ -419,6 +414,7 @@
 
 
 <PrinterTab>:
+    conf: None
     spacing: 10
     #padding: 20
     BoxLayout:
@@ -525,7 +521,7 @@
                 on_press: root.shutdown()
 
 <TempKeypad>:
-
+    conf: None
     title: ""
     temp: ""
     tempIn: tempIn
@@ -621,6 +617,7 @@
             on_release: root.remove()
 
 <ControlTab>:
+    conf: None
     tempBox: tempBox
     BoxLayout:
         BoxLayout:
@@ -654,13 +651,13 @@
                     size_hintxy: 0.7
                     Button:
                         text: "Tool 0"
-                        on_press: Server.printer.change_tool('tool0')
+                        on_press: root.conf.plugin._printer.change_tool('tool0')
                     Button:
                         text: "Tool 1"
-                        on_press: Server.printer.change_tool('tool1')
+                        on_press: root.conf.plugin._printer.change_tool('tool1')
                     Button:
                         text: "Tool 2"
-                        on_press: Server.printer.change_tool('tool2')
+                        on_press: root.conf.plugin._printer.change_tool('tool2')
 
             BoxLayout:
                 size_hint_y: 0.05
@@ -719,10 +716,10 @@
                 #height: 40
                 Button:
                     text: "Motors On"
-                    on_press: Server.printer.commands("M17")
+                    on_press: root.conf.plugin._printer.commands("M17")
                 Button:
                     text: "Motors Off"
-                    on_press: Server.printer.commands("M18")
+                    on_press: root.conf.plugin._printer.commands("M18")
 
             BoxLayout:
                 size_hint_y: 0.05
@@ -766,7 +763,7 @@
                 Button:
                     id: z_home
                     text: "Z Home"
-                    on_press: Server.printer.home(['z'])
+                    on_press: root.conf.plugin._printer.home(['z'])
                 Button:
                     id: y_plus
                     text: "Y+"
@@ -783,7 +780,7 @@
                 Button:
                     id: xy_home
                     text: "Home XY"
-                    on_press: Server.printer.home(['x', 'y'])
+                    on_press: root.conf.plugin._printer.home(['x', 'y'])
                 Button:
                     id: x_plus
                     text: "X+"
@@ -792,7 +789,7 @@
                 Button:
                     id: home
                     text: "Home All"
-                    on_press: Server.printer.home(['x', 'y', 'z'])
+                    on_press: root.conf.plugin._printer.home(['x', 'y', 'z'])
                 Button:
                     id: y_minus
                     text: "Y-"
@@ -834,6 +831,7 @@
                     allow_no_selection: False
 
 <OctoprintLcd>:
+    conf: None
 
     TabbedPanel:
         id: tabbedpanel
@@ -844,20 +842,25 @@
             text: 'Status'
             StatusTab:
                 id: status_tab
+                conf: root.conf
 
         TabbedPanelItem:
             text: 'Control'
             ControlTab:
                 id: control_tab
+                conf: root.conf
 
         TabbedPanelItem:
             text: 'Printer'
             PrinterTab:
                 id: printer_tab
+                conf: root.conf
+
         TabbedPanelItem:
             text: 'Files'
             FilesTab:
                 id: files_tab
+                conf: root.conf
 
     StatusBox:
         id: status_box
