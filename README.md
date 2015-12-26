@@ -58,3 +58,91 @@ Upcoming Features
  - Terminal tab
  - Gcode viewer
  - Slicer tab
+
+Installation
+===
+
+First, make sure that [Octoprint](https://github.com/foosel/OctoPrint) is installed
+
+Install [Kivy](http://kivy.org/#home):
+---
+**Rasbian Jessie:**
+
+From http://kivy.org/docs/installation/installation-rpi.html:
+
+Install the dependencies:
+```
+sudo apt-get update
+sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
+   pkg-config libgl1-mesa-dev libgles2-mesa-dev \
+      python-setuptools libgstreamer1.0-dev git-core \
+         gstreamer1.0-plugins-{bad,base,good,ugly} \
+            gstreamer1.0-{omx,alsa} python-dev cython
+```
+Install Kivy globally on your system:
+```
+sudo pip install git+https://github.com/kivy/kivy.git@master
+```
+Or build and use kivy inplace (best for development):
+```
+git clone https://github.com/kivy/kivy
+cd kivy
+
+make
+echo "export PYTHONPATH=$(pwd):\$PYTHONPATH" >> ~/.profile
+source ~/.profile
+```
+
+**Rasbian Wheezy:**
+
+From http://kivy.org/docs/installation/installation-rpi.html:
+
+Add APT sources for Gstreamer 1.0 in /etc/apt/sources.list:
+```
+deb http://vontaene.de/raspbian-updates/ . main
+```
+Add APT key for vontaene.de:
+```
+gpg --recv-keys 0C667A3E
+gpg -a --export 0C667A3E | sudo apt-key add -
+```
+Install the dependencies:
+```
+sudo apt-get update
+sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
+   pkg-config libgl1-mesa-dev libgles2-mesa-dev \
+   python-setuptools libgstreamer1.0-dev git-core \
+   gstreamer1.0-plugins-{bad,base,good,ugly} \
+   gstreamer1.0-{omx,alsa} python-dev
+```
+Install pip from source:
+```
+wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+sudo python get-pip.py
+```
+Install Cython from sources (debian package are outdated):
+```
+sudo pip install cython
+```
+Install Kivy globally on your system:
+```
+sudo pip install git+https://github.com/kivy/kivy.git@master
+```
+Or build and use kivy inplace (best for development):
+```
+git clone https://github.com/kivy/kivy
+cd kivy
+
+make
+echo "export PYTHONPATH=$(pwd):\$PYTHONPATH" >> ~/.profile
+source ~/.profile
+```
+Install Octoprint-Lcd:
+===
+
+Make sure that the correct `python` is being run if Octoprint is in a virtual environment (ie OctoPi)
+```
+git clone https://github.com/chickenchuck040/OctoPrint-Lcd.git
+cd OctoPrint-Lcd
+python setup.py install
+```
