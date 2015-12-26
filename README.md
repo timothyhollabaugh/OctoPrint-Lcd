@@ -74,10 +74,10 @@ Install the dependencies:
 ```
 sudo apt-get update
 sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
-   pkg-config libgl1-mesa-dev libgles2-mesa-dev \
-      python-setuptools libgstreamer1.0-dev git-core \
-         gstreamer1.0-plugins-{bad,base,good,ugly} \
-            gstreamer1.0-{omx,alsa} python-dev cython
+  pkg-config libgl1-mesa-dev libgles2-mesa-dev \
+  python-setuptools libgstreamer1.0-dev git-core \
+  gstreamer1.0-plugins-{bad,base,good,ugly} \
+  gstreamer1.0-{omx,alsa} python-dev cython
 ```
 Install Kivy globally on your system:
 ```
@@ -110,10 +110,10 @@ Install the dependencies:
 ```
 sudo apt-get update
 sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
-   pkg-config libgl1-mesa-dev libgles2-mesa-dev \
-   python-setuptools libgstreamer1.0-dev git-core \
-   gstreamer1.0-plugins-{bad,base,good,ugly} \
-   gstreamer1.0-{omx,alsa} python-dev
+  pkg-config libgl1-mesa-dev libgles2-mesa-dev \
+  python-setuptools libgstreamer1.0-dev git-core \
+  gstreamer1.0-plugins-{bad,base,good,ugly} \
+  gstreamer1.0-{omx,alsa} python-dev
 ```
 Install pip from source:
 ```
