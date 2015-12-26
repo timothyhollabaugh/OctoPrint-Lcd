@@ -70,5 +70,5 @@ class PrinterTab(BoxLayout):
         #GPIO.output(3, state)
 
     def shutdown(self):
-        conf.plugin._logger.info()"Shuting Down")
+        conf.plugin._logger.info("Shuting Down")
         os.system("sudo shutdown -h now");
