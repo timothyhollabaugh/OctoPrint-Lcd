@@ -138,7 +138,7 @@ echo "export PYTHONPATH=$(pwd):\$PYTHONPATH" >> ~/.profile
 source ~/.profile
 ```
 Install Octoprint-Lcd:
-===
+---
 
 Make sure that the correct `python` is being run if Octoprint is in a virtual environment (ie OctoPi)
 ```
