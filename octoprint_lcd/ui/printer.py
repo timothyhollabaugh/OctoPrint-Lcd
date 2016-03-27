@@ -4,7 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 import time
 import os
 
-import octoprint.server as Server
+#import octoprint.server as Server
 from octoprint.printer import get_connection_options
 
 from .. import conf
@@ -33,8 +33,16 @@ class PrinterTab(BoxLayout):
         self.ids.profiles.values = profiles
 
         if self.first:
-            self.ids.ports.text = connections['portPreference']
-            self.ids.baudrates.text = str(connections['baudratePreference'])
+            if connections['portPreference'] != None:
+                self.ids.ports.text = connections['portPreference']
+            else:
+                self.ids.ports.text = "None"
+
+            if connections['baudratePreference'] != None:
+                self.ids.baudrates.text = str(connections['baudratePreference'])
+            else:
+                self.ids.baudrates.text = "None"
+
             self.ids.profiles.text = conf.plugin._printer_profile_manager.get_all()['_default']['name']
             self.first = False
 

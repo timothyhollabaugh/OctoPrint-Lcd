@@ -3,7 +3,7 @@ from __future__ import absolute_import
 
 import octoprint.plugin
 
-import octoprint.server as Server
+#import octoprint.server as Server
 
 import os
 import thread
