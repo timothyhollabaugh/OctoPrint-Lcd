@@ -3,7 +3,7 @@ def start():
     import os
     os.environ["KIVY_NO_ARGS"] = "1"
     os.environ["KIVY_NO_CONSOLELOG"] = "1"
-    
+
     import kivy
     kivy.require('1.9.0') # replace with your current kivy version !
 
@@ -26,8 +26,8 @@ def start():
     from .control import ControlTab
     from .files import FilesTab
     from .printer import PrinterTab
-    #from .usb import UsbTab
-    #from .usb import start_listening
+    from .usb import UsbTab
+    from .usb import start_listening
     from .. import conf
 
     Config.set('graphics', 'height', '480')
@@ -47,9 +47,9 @@ def start():
             Clock.schedule_interval(self.update, .1)
 
             # Start the usb listener
-            #thread=threading.Thread(target=start_listening, args=(self,))
-            #thread.daemon=True              # This makes sure that CTRL+C works
-            #thread.start()
+            thread=threading.Thread(target=start_listening, args=(self,))
+            thread.daemon=True              # This makes sure that CTRL+C works
+            thread.start()
 
         def update(self, dt):
             self.conf = conf
@@ -59,12 +59,12 @@ def start():
             self.ids.printer_tab.update(dt)
             self.ids.files_tab.update(dt)
 
-        #def addUsb(self, usb):
-        #    usb.text = "USB"
-        #    self.ids.tabbedpanel.add_widget(usb)
+        def addUsb(self, usb):
+            usb.text = "USB"
+            self.ids.tabbedpanel.add_widget(usb)
 
-        #def removeUsb(self, usb):
-        #    self.ids.tabbedpanel.remove_widget(usb)
+        def removeUsb(self, usb):
+            self.ids.tabbedpanel.remove_widget(usb)
 
         def switchDefault(self):
             self.ids.tabbedpanel.switch_to(self.ids.tabbedpanel.default_tab)
