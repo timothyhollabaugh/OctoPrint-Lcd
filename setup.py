@@ -24,7 +24,7 @@ plugin_description = """Displays a full user interface on a touchscreen"""
 plugin_author = "Tim H"
 
 # The plugin's author's mail address.
-plugin_author_email = "tim@haytown.mooo.com"
+plugin_author_email = "haytowntim@embarqmail.com"
 
 # The plugin's homepage URL. Can be overwritten within OctoPrint's internal data via __plugin_url__ in the plugin module
 plugin_url = "https://github.com/chickenchuck040/OctoPrint-Lcd"
@@ -41,7 +41,7 @@ plugin_requires = []
 
 # Additional package data to install for this plugin. The subfolders "templates", "static" and "translations" will
 # already be installed automatically if they exist.
-plugin_additional_data = []
+plugin_additional_data = ["ui/octoprintlcd.kv", "ui"]
 
 # Any additional python packages you need to install with your plugin that are not contained in <plugin_package>.*
 plugin_additional_packages = []

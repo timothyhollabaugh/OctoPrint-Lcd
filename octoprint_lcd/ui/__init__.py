@@ -5,7 +5,7 @@ def start():
     os.environ["KIVY_NO_CONSOLELOG"] = "1"
 
     import kivy
-    kivy.require('1.9.0') # replace with your current kivy version !
+    kivy.require('1.9.2') # replace with your current kivy version !
 
     from kivy.app import App
     from kivy.clock import Clock
