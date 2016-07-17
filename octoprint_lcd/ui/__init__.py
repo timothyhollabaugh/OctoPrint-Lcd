@@ -5,7 +5,7 @@ def start():
     os.environ["KIVY_NO_CONSOLELOG"] = "1"
 
     import kivy
-    kivy.require('1.9.2') # replace with your current kivy version !
+    kivy.require('1.9.1') # replace with your current kivy version !
 
     from kivy.app import App
     from kivy.clock import Clock
@@ -30,7 +30,7 @@ def start():
 
     Config.set('graphics', 'height', '480')
     Config.set('graphics', 'width', '800')
-    Config.set('graphics', 'borderless', '1')
+    Config.set('graphics', 'borderless', '0')
     Config.write()
 
     class OctoprintLcd(FloatLayout):

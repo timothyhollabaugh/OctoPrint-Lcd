@@ -99,7 +99,7 @@ class ControlTab(FloatLayout):
 
                         self.tempBox.add_widget(box)
 
-                        
+
             else:
                 pass
             self.oldProfile = self.profile
@@ -117,7 +117,7 @@ class ControlTab(FloatLayout):
                 if f.state == 'down':
                     step = float(f.text)
                     break
-            conf.plugin._printer.jog(axis, step*mult)
+            conf.plugin._printer.jog({axis: step*mult})
 
         if 'z' in axis:
             step = 0
@@ -125,7 +125,7 @@ class ControlTab(FloatLayout):
                 if f.state == 'down':
                     step = float(f.text)
                     break
-            conf.plugin._printer.jog(axis, step*mult)
+            conf.plugin._printer.jog({axis: step*mult})
 
         if 'e' in axis:
             step = 0
@@ -133,7 +133,8 @@ class ControlTab(FloatLayout):
                 if f.state == 'down':
                     step = float(f.text)
                     break
-            conf.plugin._printer.jog(axis, step*mult)
+            conf.plugin._printer.extrude(step*mult)
+            #conf.plugin._printer.jog(axis, step*mult)
 
     def showKeyboard(self, tool, title):
         keypad = TempKeypad()
