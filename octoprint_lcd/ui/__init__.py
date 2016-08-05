@@ -42,7 +42,7 @@ def start():
 
             self.conf = conf
 
-            Clock.schedule_interval(self.update, .1)
+            Clock.schedule_interval(self.update, 0.5)
 
         def update(self, dt):
             self.conf = conf
