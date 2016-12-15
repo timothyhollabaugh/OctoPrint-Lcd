@@ -1,3 +1,5 @@
+**Note: This has effectively been replaced by https://github.com/chickenchuck040/octoscreen. All further developement will be done there**
+
 Octoprint-Lcd
 ===
 
